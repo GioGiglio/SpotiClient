@@ -195,7 +195,7 @@ li > div > .image {
     cursor: pointer;
 }
 
-#navbar input {
+#search_input {
     /* Positioning */
     float:right;
     margin-top:9px;

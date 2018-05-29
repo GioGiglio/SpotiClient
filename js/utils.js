@@ -96,3 +96,27 @@ function initVars(){
     i.addKey('songs');
     i.addKey('playlists');
 }
+
+/**
+ * Filter tracks_list according to user's input.
+ */
+function search_filter(){
+    var user_input = document.getElementById('search_input').value;
+    var lis = $('#tracks_list ul')[0].getElementsByTagName('li');
+
+    var key = event.keyCode || event.charCode;
+
+    if (key === 8 || key === 46){
+        // backspace or del clicked
+        // Show again all songs
+        $(lis).show();
+    }
+
+    for (let i=0; i<lis.length; i++){
+        if( ! lis[i].innerText.toLowerCase().includes(user_input.toLowerCase())){
+            // Hide element
+            $(lis[i]).hide();
+        }
+    }
+
+}

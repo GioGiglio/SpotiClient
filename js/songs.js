@@ -66,7 +66,7 @@ function showMySongs(){
     addMyPlaceholdersSongs();
 
     // change search field to search in 'your songs'
-    $('#navbar input').attr('placeholder','Search in your songs...');
+    $('#search_input').attr('placeholder','Search in your songs...');
 }
 
 function showAllSongs(){
@@ -79,5 +79,5 @@ function showAllSongs(){
     addAllPlaceholdersSongs();
 
     // change search field to search in 'all songs'
-    $('#navbar input').attr('placeholder','Search a song...');
+    $('#search_input').attr('placeholder','Search a song...');
 }
