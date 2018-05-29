@@ -1,8 +1,9 @@
-function Song(title, artist, album, imageUrl){
+function Song(title, artist, album, imageUrl, path){
 	this.title = title;
 	this.artist = artist;
 	this.album = album;
 	this.imageUrl = imageUrl;
+	this.path = path;
 }
 
 function Playlist (name){

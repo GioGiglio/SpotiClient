@@ -7,25 +7,11 @@ function init(){
         playlists_index.getNew();
         playlists_index.remove(index);
     */
-    playlists_index = 0;
-    songs_index = 0;
-    
-    initVars();
 
-    // Init current song
-    current_song = undefined;
-    
-    // song title
-    player_title.textContent='currentSong.title';
-    player_title.textContent='RUN BOY RUN';
-    
+    initVars();
+        
     showMySongs();
     addPlaceholdersPlaylist();
-    
-    var tracks = $('.track .image');
-    for (var i=0; i<tracks.length; i++){
-        //tracks[i].addEventListener('mouseover',song_hover(tracks[i],i));
-    }
 }
 
 /**
@@ -36,32 +22,65 @@ function play(index){
     // TODO: provide track name, and check if the track is already cached;
     // if cache gets filled, remove less played song
     
-    // TODO handle playing songs[index];
     console.log('play() called for song:',index);
+
+    if (player.currentSrc === ''){
+        // Initial state
+        current_song = songs[index];
+        player.src= current_song.path;
+        player.play();
+
+        // update player song title and image
+        $(player_title).text(current_song.title);
+        $(player_image).css('background-image','url('+current_song.imageUrl+')');
+        
+        return;
+    }
     
     if (current_song === undefined){
         current_song = songs[index];
-    } 
-    else {
-        
     }
-
+    
     if (player.paused){
+        // player is paused -> play
+        if (current_song !== songs[index]){
+            // User clicked a different song from the current one
+            current_song = songs[index];
+            
+            // update audio source
+            player.src = current_song.path;
+        }
         player.play();
         
     } else {
-        player.pause();
-    }
-}
+        // player is playing
 
-function song_hover(track,index){
-    var hover_img = player.paused ? 'url(../media/play.svg)' : 'url(../media/pause.svg)';
-    track.style.backgroundImage = hover_img;
+        if (current_song !== songs[index]){
+            current_song = songs[index];
+            
+            // Different song -> play
+            player.src = current_song.path;
+            player.play();
+        }
+        else {
+            // Same song -> pause
+            player.pause();
+        }
+    }
+    // update player song title and image
+    $(player_title).text(current_song.title);
+    $(player_image).css('background-image','url('+current_song.imageUrl+')');
 }
 
 function initVars(){
-    runBoyRun = new Song('Run Boy Run','Woodkid','The Golden Age','media/covers/thegoldenage.jpg');
-    ancora = new Song('Ancora','Eduardo De Crescenzo','All The Best','media/covers/allthebest.jpg');
+    playlists_index = 0;
+    songs_index = 0;
+    player_title = $('#player_title')[0];
+    player_image = $('#player_image')[0];
+    current_song = undefined;
+
+    runBoyRun = new Song('Run Boy Run','Woodkid','The Golden Age','media/covers/thegoldenage.jpg','media/run_boy_run.mp3');
+    ancora = new Song('Ancora','Eduardo De Crescenzo','All The Best','media/covers/allthebest.jpg','media/mmh_ha_ha_ha.mp3');
     flamingo = new Song('Flamingo','Oliver Heldens','Heldeep','media/covers/heldeep.jpg');
 
     songs=[];
@@ -76,6 +95,4 @@ function initVars(){
     var i = new Indexer();
     i.addKey('songs');
     i.addKey('playlists');
-
-    player_title = $('#player_title')[0];
 }

@@ -92,13 +92,12 @@ li > div > .image {
     padding:0;
 }
 
-.player_image {
+#player_image {
     /* IMAGE */
     float: left;
     width: 75px;
     height: 75px;
     border-radius: 40px;
-    background-image: url('../media/covers/allthebest.jpg');
     display: inline-block;
     background-size: cover;
     
@@ -219,7 +218,7 @@ li > div > .image {
     
     /* HIDDEN player image */
     
-    section#player div.player_image {
+    #player_image {
         width: 50px;
         height: 50px;
         border-radius: 25px;
