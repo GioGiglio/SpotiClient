@@ -92,9 +92,10 @@ function initVars(){
     summer.addSong(runBoyRun);
     summer.addSong(ancora);
 
-    var i = new Indexer();
-    i.addKey('songs');
-    i.addKey('playlists');
+    indexer = new Indexer();
+    indexer.addKey('mySongs');
+    indexer.addKey('allSongs');
+    indexer.addKey('playlists');
 }
 
 /**

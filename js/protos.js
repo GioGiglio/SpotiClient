@@ -48,4 +48,8 @@ function Indexer(){
 	this.indexes = function(key){
 		return this.key(key)['indexes'];
 	}
+
+	this.clear = function(key){
+		this.key(key).indexes = [];
+	}
 }

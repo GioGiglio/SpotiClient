@@ -1,4 +1,9 @@
-function appendTrack(song){
+/**
+ * Append a song to the tracks list
+ * @param {Song} song The song object to append
+ * @param {String} owner 'user' if track belongs to the user, otherwise 'server'
+ */
+function appendTrack(song,owner){
     var tracks_list = $('#tracks_list > ul')[0];
     var node_li = document.createElement('li');
     var node_div = document.createElement('div');
@@ -19,7 +24,7 @@ function appendTrack(song){
     }).addClass('track');
     
     // assing index to node_li
-    song_assign_index(node_li);
+    song_assign_index(node_li,owner);
     
     node_div.appendChild(node_img);
     node_div.appendChild(node_title);
@@ -36,20 +41,26 @@ function appendTrack(song){
     Assings an auto-incremented index as the attribute 'value' of a song.
     @param li: the <li> element representing the song in the songs list.
 */
-function song_assign_index(li){
-    $(li).attr('value',String(songs_index++));
+function song_assign_index(li,owner){
+    var index = (owner === 'user')? indexer.newIndex('mySongs') : indexer.newIndex('allSongs');
+    $(li).attr('value',String(index));
+}
+
+function resetIndexes(){
+    indexer.clear('mySongs');
+    indexer.clear('allSongs');
 }
 
 function addMyPlaceholdersSongs(){
     for(let i=0; i<songs.length; i++){
-        appendTrack(songs[i]);
+        appendTrack(songs[i],'user');
     }
 }
 
 function addAllPlaceholdersSongs(){
-    appendTrack(runBoyRun);
-    appendTrack(ancora);
-    appendTrack(flamingo);
+    appendTrack(runBoyRun,'server');
+    appendTrack(ancora,'server');
+    appendTrack(flamingo,'server');
 }
 
 function removeSongs(){
@@ -63,6 +74,7 @@ function showMySongs(){
     
     // first remove existing songs
     removeSongs();
+    resetIndexes();
     addMyPlaceholdersSongs();
 
     // change search field to search in 'your songs'
