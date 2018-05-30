@@ -180,10 +180,10 @@ li > div > .image {
 }
 
 #navbar a {
-    padding: 15px;
-    float:left;
+    display: inline;
     font-size: 1.1em;
     color:white;
+    margin-right: 10px;
 }
 
 #navbar a.active {
@@ -197,14 +197,15 @@ li > div > .image {
 
 #search_input {
     /* Positioning */
-    float:right;
-    margin-top:9px;
-    margin-right: 20px;
-    
+    margin: 10px;
     /* Appearance */
     padding: 8px;
     border-radius: 20px;
     border: 0;
+}
+
+a#navbar_playlists {
+    display:none;
 }
 
 /* Mobile Portrait View */
@@ -223,6 +224,27 @@ li > div > .image {
         height: 50px;
         border-radius: 25px;
         display:none;
+    }
+
+    #navbar {
+        overflow: auto;
+        padding-top: 10px;
+    }
+
+    #navbar a, #navbar input{
+        display:block;
+        margin:auto;
+        width: 50%;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    #tracks_list {
+        margin-top: 180px;
+    }
+
+    #navbar_playlists {
+        display:inline;
     }
 
 }
