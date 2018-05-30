@@ -41,7 +41,7 @@ app.post("", function(req, res){
     console.log(req.body.username);    
     console.log(req.body.password);
     querySongs(res);
-  });
+});
 
 function querySongs(res){
     connection.query('SELECT * FROM Songs', function (error, results, fields) {

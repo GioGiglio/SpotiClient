@@ -24,7 +24,6 @@ body {
 form {
     margin:auto;
     width: 50%;
-    align-self: center;
 }
 
 #container > div {
@@ -33,11 +32,31 @@ form {
     background-color:white;
     padding: 20px;
     border-radius: 0 0 20px 20px;
-    text-align-last: center;
 }
 
-form > input, form > button {
-    width: inherit;
+form > input, #login_btn {
     padding: 6px 10px;
     margin-bottom: 15px;
+}
+
+#login_btn {
+    margin-right: 20px;
+}
+
+#logup {
+    color: blue;
+    cursor: pointer;
+    text-decoration: underline;
+    margin-left: 5px;
+}
+
+#logup_form {
+    display:none;
+}
+
+label {
+    text-align: right;
+    clear: both;
+    float:left;
+    margin-right:15px;
 }

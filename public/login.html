@@ -1,33 +1,65 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>SpotiClient</title>
-        <link rel="stylesheet" type="text/css" href="css/login.css">
-        <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
-    </head>
-    <body onload = "fade_login()">
-        <div id="container">
-            <div style="display:none">
-            <form onsubmit="return validate();" id="login_form" name="login" method="post" action="index.html">
-		        <label for="uname">Username</label>
-                <input type="text" placeholder="Enter Username" name="uname" required> <br/>
+
+<head>
+    <title>SpotiClient</title>
+    <link rel="stylesheet" type="text/css" href="css/login.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
+</head>
+
+<body onload="fade_login()">
+    <div id="container">
+        <div style="display:none">
+
+            <!-- LOGIN FORM -->
+            <form id="login_form" name="login" method="post" action="index.html">
+                <label for="uname">Username</label>
+                <input type="text" placeholder="Enter Username" name="uname" required>
+                <br/>
 
                 <label for="psw">Password</label>
-                <input type="password" placeholder="Enter Password" name="psw" required> <br/>
-                
-                <button type="submit">Login</button> <br/>
+                <input type="password" placeholder="Enter Password" name="psw" required>
+                <br/>
+
+                <button id="login_btn" type="submit">Log in</button>
+                <span>or</span>
+                <span id="logup" onclick="showLogup()">Log up</span>
+                <br/>
+
                 <label>
                     <input type="checkbox" checked="checked" name="remember"> Remember me
                 </label>
-	       </form>
-            </div>
+            </form>
+
+            <!-- LOGUP FORM -->
+            <form id="logup_form" name="logup" method="post" action="index.html">
+                <label for="first_name">First Name</label>
+                <input type="text" placeholder="Enter your first name" name="first_name" required>
+                <br>
+                <label for="last_name">Last Name </label>
+                <input type="text" placeholder="Enter your last name" name="last_name" required>
+                <br>
+                <label for="email">Email </label>
+                <input type="email" placeholder="Enter your email address" name="email" required>
+                <br>
+                <label for="psw1">Password</label>
+                <input type="password" placeholder="Enter Password" name="psw1" required>
+                <br>
+                <label for="psw2">Reinsert Password</label>
+                <input type="password" placeholder="Enter Password" name="psw2" required>
+                <br>
+                <button id="logup" type="submit">Log up</button>
+            </form>
         </div>
-    </body>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    
-    <script>
-        function fade_login(){
-            $('#container > div').fadeIn(750);
-        }
-    </script>
+    </div>
+</body>
+<script type="text/javascript" src="js/login.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script>
+    function fade_login() {
+        $('#container > div').fadeIn(750);
+    }
+</script>
+
 </html>
