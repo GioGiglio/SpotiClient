@@ -46,7 +46,7 @@ app.post("", function(req, res){
 function querySongs(res){
     connection.query('SELECT * FROM Songs', function (error, results, fields) {
     if (error) throw error;
-        console.log('The solution is: ', results[0].solution);
+    console.log('The solution is: ', results);
     });
     connection.end();
 }
