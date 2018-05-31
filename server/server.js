@@ -38,8 +38,8 @@ connection.connect(function(error){
 app.listen(8080, () => console.log('App listening on port 8080!'));
 
 app.post("", function(req, res){
-    console.log(req.body.username);    
-    console.log(req.body.password);
+    console.log(req.body.uname);    
+    console.log(req.body.psw);
     querySongs(res);
 });
 
