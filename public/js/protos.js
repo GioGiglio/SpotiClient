@@ -52,4 +52,4 @@ function Indexer(){
 	this.clear = function(key){
 		this.key(key).indexes = [];
 	}
-}
+}	

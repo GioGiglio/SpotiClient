@@ -1,17 +1,21 @@
 function init(){
-    player = $('#music_player')[0];
-    
-    /* GLOBAL INDEXES */
-    /* TODO consider creating an object with methods for generating an unsed index number
-        var playlists_index = new IndexGenerator();
-        playlists_index.getNew();
-        playlists_index.remove(index);
-    */
-
     initVars();
         
     showMySongs();
     addPlaceholdersPlaylist();
+
+    // String hashCode prototype
+
+    String.prototype.hashCode = function(){
+        var hash = 0;
+        if (this.length == 0) return hash;
+        for (i = 0; i < this.length; i++) {
+            char = this.charCodeAt(i);
+            hash = ((hash<<5)-hash)+char;
+            hash = hash & hash; // Convert to 32bit integer
+        }
+        return hash;
+    }
 }
 
 /**
@@ -73,8 +77,7 @@ function play(index){
 }
 
 function initVars(){
-    playlists_index = 0;
-    songs_index = 0;
+    player = $('#music_player')[0];
     player_title = $('#player_title')[0];
     player_image = $('#player_image')[0];
     current_song = undefined;

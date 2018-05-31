@@ -12,7 +12,7 @@
         <div style="display:none">
 
             <!-- LOGIN FORM -->
-            <form id="login_form" name="login" method="post" action="index.html">
+            <form id="login_form" name="login" action="/login" method="POST">
                 <label for="uname">Username</label>
                 <input type="text" placeholder="Enter Username" name="uname" required>
                 <br/>
@@ -21,7 +21,8 @@
                 <input type="password" placeholder="Enter Password" name="psw" required>
                 <br/>
 
-                <button id="login_btn" type="submit" onclick="login()">Log in</button>
+                <button id="login_btn" type="submit">Log in</button>
+
                 <span>or</span>
                 <span id="logup" onclick="showLogup()">Log up</span>
                 <br/>
