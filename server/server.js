@@ -42,6 +42,8 @@ app.use(express.static('public'));
 
 /* serve main page */
 app.get('/', function(req, res) {
+    /* if user is already logged -> public/index.html
+    else -> public/login.html */
     res.sendFile(path.resolve('public/index.html'));
 });
 
@@ -51,6 +53,13 @@ app.post('/login', function(req, res){
     var uname = req.body.uname;
     var psw = req.body.psw;
     queryLogin(res, uname, psw);
+});
+
+app.post('/register',function(req, res){
+    var uname = req.body.username;
+    var email = req.body.email;
+    var psw = req.body.psw1;
+    queryAddUser(res, uname, email, psw);
 });
 
 function querySongs(res){
@@ -74,5 +83,14 @@ function queryLogin(res, uname, psw){
             // Access denied, redirect to login.html
             res.redirect('login.html');
         }
+    });
+}
+
+function queryAddUser(res, uname, email, psw){
+    connection.query("INSERT INTO Users \
+    VALUES ('"+uname+"' , '"+email+"' , '"+psw+"');",
+    function(error, results, fields){
+        if (error) throw error;
+        res.redirect('/');
     });
 }

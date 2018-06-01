@@ -1,9 +1,23 @@
 function showLogup(){
-    // Hide login form
+    // Hide login form and logup button
     $('#login_form').hide();
+    $('#nyr').hide();
+    $('#logup_btn').hide();
 
-    // Show logup form
+    // Show logup form and back to login button
     $('#logup_form').show();
+    $('#backto_login').show();
+}
+
+function showLogin(){
+    // hide logup
+    $('#logup_form').hide();
+    $('#backto_login').hide();
+
+    // show login
+    $('#login_form').show();
+    $('#nyr').show();
+    $('#logup_btn').show();
 }
 
 function login(){
