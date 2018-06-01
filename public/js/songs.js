@@ -67,15 +67,37 @@ function removeSongs(){
     $('#tracks_list ul').empty();
 }
 
+/**
+ * Fetch user's songs informations from server and displays them in a list.
+ */
 function showMySongs(){
     // Switch active <a> element
     $('#navbar a:first-child').addClass('active');
     $('#navbar a:nth-child(2)').removeClass('active');
-    
+
+    // Get users songs
+    var xhttp = new XMLHttpRequest();
+    var data = {uname: 'GioGiglio'};
+
+    xhttp.open('POST','/userSongs',true);
+
+    xhttp.onreadystatechange = function() {
+        if (xhttp.readyState == XMLHttpRequest.DONE) {
+            console.log('response received');
+            resToSongs(JSON.parse(xhttp.responseText));
+        }
+    }
+
+    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhttp.send(JSON.stringify(data));
+
+
+    /*
     // first remove existing songs
     removeSongs();
     resetIndexes();
     addMyPlaceholdersSongs();
+    */
 
     // change search field to search in 'your songs'
     $('#search_input').attr('placeholder','Search in your songs...');
@@ -92,4 +114,8 @@ function showAllSongs(){
 
     // change search field to search in 'all songs'
     $('#search_input').attr('placeholder','Search a song...');
+}
+
+function resToSongs(response){
+    console.log(response);
 }

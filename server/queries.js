@@ -1,11 +1,18 @@
 module.exports = {
     
-    songs: function (res, results) {
-        res.writeHead(200, { "Content-Type": "text/plain" });
-        res.write(results); // You Can Call Response.write Infinite Times BEFORE response.end
-        res.end("Hello World\n");
-        console.log(results);
-        return;
+    songs: function (res, connection, results) {
+        // get songs ids
+        var in_clause = '';
+        for(let i=0; i< results.length; i++){
+            in_clause= in_clause + results[i].song_id + ',';
+        }
+        in_clause = '(' + in_clause.slice(0, -1) + ')';
+
+        connection.query('SELECT * FROM Songs WHERE _id IN ' + in_clause + ';',
+        function (error, results, fields) {
+            if (error) throw error;
+            res.json(results);
+        });
     },
 
     login: function (res, connection, uname, psw) {
@@ -29,18 +36,23 @@ module.exports = {
         connection.query("INSERT INTO Users \
     VALUES ('"+ uname + "' , '" + email + "' , '" + psw + "');",
             function (error, results, fields) {
-                if (error) throw error;
+                if (error){
+                    res.writeHead(400, {"Content-Type":"text/plain"});
+                    res.end("An error occurred");
+                    return;
+                }
                 res.redirect('/');
             });
 
     },
 
     songsForUser: function (res, connection, uname) {
+        console.log('uname is:',uname);
         connection.query("SELECT song_id FROM UsersSongs \
     WHERE username = '" + uname + "';",
         function (error, results, fields) {
             if (error) throw Error;
-            songs(res, results);
+            module.exports.songs(res, connection, results);
         });
     }
 };

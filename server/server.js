@@ -63,6 +63,6 @@ app.post('/register',function(req, res){
     query.addUser(res, connection, uname, email, psw);
 });
 
-app.get('/userSongs',function(req, res){
+app.post('/userSongs',function(req, res){
     query.songsForUser(res, connection, req.body.uname);
 })
