@@ -13,6 +13,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const app = express();
 var request;
+var query = require('./queries.js');
 
 // MySql
 var mysql      = require('mysql');
@@ -52,12 +53,16 @@ app.get('/', function(req, res) {
 app.post('/login', function(req, res){
     var uname = req.body.uname;
     var psw = req.body.psw;
-    queryLogin(res, uname, psw);
+    query.login(res, connection, uname, psw);
 });
 
 app.post('/register',function(req, res){
     var uname = req.body.username;
     var email = req.body.email;
     var psw = req.body.psw1;
-    queryAddUser(res, uname, email, psw);
+    queryAddUser(res, connection, uname, email, psw);
 });
+
+app.get('/userSongs',function(req, res){
+    querySongsForUser(res, connection, req.body.uname);
+})
