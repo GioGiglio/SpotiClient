@@ -33,21 +33,15 @@ form {
     padding: 20px;
     border-radius: 0 0 20px 20px;
 }
-
+/*
 form > input, #login_btn {
     padding: 6px 10px;
     margin-bottom: 15px;
 }
+*/
 
 #login_btn {
     margin-right: 20px;
-}
-
-#logup {
-    color: blue;
-    cursor: pointer;
-    text-decoration: underline;
-    margin-left: 5px;
 }
 
 #logup_form {
@@ -56,7 +50,31 @@ form > input, #login_btn {
 
 label {
     text-align: right;
-    clear: both;
-    float:left;
     margin-right:15px;
+}
+
+form > input {
+    display: block;
+    border:1px;
+    border-radius: 15px;
+    padding: 10px;
+    margin-bottom: 20px;
+    background: #00b500b3;
+    color:white;
+    font-size:1em;
+}
+
+::placeholder{
+    color: white;
+}
+
+button {
+    border:0;
+    border-radius: 15px;
+    padding: 10px 30px;
+    margin-top: 20px;
+}
+
+#logup_btn {
+    margin-left: 20px;
 }

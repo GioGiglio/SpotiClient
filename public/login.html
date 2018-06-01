@@ -14,41 +14,37 @@
             <!-- LOGIN FORM -->
             <form id="login_form" name="login" action="/login" method="POST">
                 <label for="uname">Username</label>
-                <input type="text" placeholder="Enter Username" name="uname" required>
-                <br/>
+                <input type="text" placeholder="Enter Username" name="uname" required maxlength="20">
 
                 <label for="psw">Password</label>
-                <input type="password" placeholder="Enter Password" name="psw" required>
-                <br/>
-
-                <button id="login_btn" type="submit">Log in</button>
-
-                <span>or</span>
-                <span id="logup" onclick="showLogup()">Log up</span>
-                <br/>
+                <input type="password" placeholder="Enter Password" name="psw" required maxlength="15">
 
                 <label>
-                    <input type="checkbox" checked="checked" name="remember"> Remember me
+                    <input type="checkbox" checked="checked" name="remember"> Remember me <br/>
                 </label>
+
+                <button id="login_btn" type="submit">Log in</button>
             </form>
 
+            <span id="nyr">Not yet registered?</span>
+            <button id="logup_btn" onclick="showLogup()">Log up</button>
+
+            <button id="backto_login" onclick="showLogin()" style="display:none">Return to login</button>
+
             <!-- LOGUP FORM -->
-            <form id="logup_form" name="logup" method="post" action="index.html">
-                <label for="first_name">First Name</label>
-                <input type="text" placeholder="Enter your first name" name="first_name" required>
-                <br>
-                <label for="last_name">Last Name </label>
-                <input type="text" placeholder="Enter your last name" name="last_name" required>
-                <br>
+            <form id="logup_form" name="logup" method="post" action="/register">
+                <label for="username">Username </label>
+                <input type="text" placeholder="Pick a username" name="username" required maxlength="20">
+                
                 <label for="email">Email </label>
-                <input type="email" placeholder="Enter your email address" name="email" required>
-                <br>
+                <input type="email" placeholder="you@example.com" name="email" required maxlength="50">
+                
                 <label for="psw1">Password</label>
-                <input type="password" placeholder="Enter Password" name="psw1" required>
-                <br>
-                <label for="psw2">Reinsert Password</label>
-                <input type="password" placeholder="Enter Password" name="psw2" required>
-                <br>
+                <input type="password" placeholder="Create a password" name="psw1" required maxlength="15">
+                
+                <label for="psw2">Confirm Password</label>
+                <input type="password" placeholder="Write again password" name="psw2" required maxlength="15">
+                
                 <button id="logup" type="submit">Log up</button>
             </form>
         </div>
