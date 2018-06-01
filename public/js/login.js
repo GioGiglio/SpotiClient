@@ -46,3 +46,18 @@ function login(){
     // send request
     xhttp.send(JSON.stringify(obj));
 }
+/**
+ * Check user input on registration form.
+ * @returns true if registration form's data is ok
+ */
+function logupCheck(){
+    var form = $('#logup_form')[0];
+    var retval;
+
+    // Check password
+    retval = form.psw1.value === form.psw2.value;
+    if (! retval){
+        alert('Passwords do not match!');
+    }
+    return retval;
+}

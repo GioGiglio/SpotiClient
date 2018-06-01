@@ -42,6 +42,9 @@ form > input, #login_btn {
 
 #login_btn {
     margin-right: 20px;
+    background-color:#05a505;
+    color:white;
+    font-size:0.9em;
 }
 
 #logup_form {
