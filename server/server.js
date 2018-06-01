@@ -60,9 +60,9 @@ app.post('/register',function(req, res){
     var uname = req.body.username;
     var email = req.body.email;
     var psw = req.body.psw1;
-    queryAddUser(res, connection, uname, email, psw);
+    query.addUser(res, connection, uname, email, psw);
 });
 
 app.get('/userSongs',function(req, res){
-    querySongsForUser(res, connection, req.body.uname);
+    query.songsForUser(res, connection, req.body.uname);
 })
