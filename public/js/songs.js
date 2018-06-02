@@ -23,8 +23,8 @@ function appendTrack(song,owner){
         play($(this).attr('value'));
     }).addClass('track');
     
-    // assing index to node_li
-    song_assign_index(node_li,owner);
+    // assing id to node_li
+    $(node_li).attr('value',String(song.id));
     
     node_div.appendChild(node_img);
     node_div.appendChild(node_title);
@@ -35,15 +35,6 @@ function appendTrack(song,owner){
     tracks_list.appendChild(node_li);
     
     console.log('Track appended');
-}
-
-/**
-    Assings an auto-incremented index as the attribute 'value' of a song.
-    @param li the <li> element representing the song in the songs list.
-*/
-function song_assign_index(li,owner){
-    var index = (owner === 'user')? indexer.newIndex('mySongs') : indexer.newIndex('allSongs');
-    $(li).attr('value',String(index));
 }
 
 function resetIndexes(){
@@ -86,7 +77,7 @@ function showMySongs(){
     xhttp.onreadystatechange = function() {
         if (xhttp.readyState == XMLHttpRequest.DONE) {
             console.log('response received');
-            songs = resToSongs(JSON.parse(xhttp.responseText));
+            songs = parseSongs(JSON.parse(xhttp.responseText));
             songs.forEach(function(song){
                 appendTrack(song,'user');
             });
@@ -99,7 +90,6 @@ function showMySongs(){
 
     // remove existing songs
     removeSongs();
-    resetIndexes();
 
     // change search field to search in 'your songs'
     $('#search_input').attr('placeholder','Search in your songs...');
@@ -118,10 +108,10 @@ function showAllSongs(){
     $('#search_input').attr('placeholder','Search a song...');
 }
 
-function resToSongs(response){
-    var songs = [];
+function parseSongs(response){
+    var out = [];
     response.forEach(function(s){
-        songs.push(new Song(s.title, s.artist, s.album, s.img_source, s.audio_source));
+        out.push(new Song(s._id, s.title, s.artist, s.album, s.img_source, s.audio_source));
     });
-    return songs;
+    return out;
 }

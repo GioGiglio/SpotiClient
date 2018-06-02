@@ -2,7 +2,9 @@ function init(){
     initVars();
         
     showMySongs();
-    addPlaceholdersPlaylist();
+    showMyPlaylists();
+
+    //addPlaceholdersPlaylist();
 
     // String hashCode prototype
 
@@ -19,18 +21,28 @@ function init(){
 }
 
 /**
+ * 
+ * @param {*} id The id of the song.
+ * @returns The song object having that id.
+ */
+function songFromId(id){
+    return songs.filter(function(s){return s.id == id})[0];
+}
+
+/**
     Make the player play a song.
-    @param index: the index of the song in the tracks list.
+    @param id: the id of the song in the tracks list.
 */
-function play(index){
+function play(id){
     // TODO: provide track name, and check if the track is already cached;
     // if cache gets filled, remove less played song
     
-    console.log('play() called for song:',index);
+    console.log('play() called for song:',id);
 
     if (player.currentSrc === ''){
         // Initial state
-        current_song = songs[index];
+        current_song = songFromId(id);
+
         player.src= current_song.path;
         player.play();
 
@@ -42,14 +54,14 @@ function play(index){
     }
     
     if (current_song === undefined){
-        current_song = songs[index];
+        current_song = songFromId(id);
     }
     
     if (player.paused){
         // player is paused -> play
-        if (current_song !== songs[index]){
+        if (current_song !== songFromId(id)){
             // User clicked a different song from the current one
-            current_song = songs[index];
+            current_song = songFromId(id);
             
             // update audio source
             player.src = current_song.path;
@@ -59,8 +71,8 @@ function play(index){
     } else {
         // player is playing
 
-        if (current_song !== songs[index]){
-            current_song = songs[index];
+        if (current_song !== songFromId(id)){
+            current_song = songFromId(id);
             
             // Different song -> play
             player.src = current_song.path;
@@ -82,23 +94,9 @@ function initVars(){
     player_image = $('#player_image')[0];
     current_song = undefined;
 
-    runBoyRun = new Song('Run Boy Run','Woodkid','The Golden Age','media/covers/thegoldenage.jpg','media/run_boy_run.mp3');
-    ancora = new Song('Ancora','Eduardo De Crescenzo','All The Best','media/covers/allthebest.jpg','media/ancora.mp3');
-    flamingo = new Song('Flamingo','Oliver Heldens','Heldeep','media/covers/heldeep.jpg');
-
     songs=[];
-    songs.push(runBoyRun);
-    songs.push(ancora);
-    //songs.push(flamingo)
 
     summer = new Playlist('Summer');
-    summer.addSong(runBoyRun);
-    summer.addSong(ancora);
-
-    indexer = new Indexer();
-    indexer.addKey('mySongs');
-    indexer.addKey('allSongs');
-    indexer.addKey('playlists');
 }
 
 /**
