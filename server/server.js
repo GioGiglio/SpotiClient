@@ -66,3 +66,7 @@ app.post('/register',function(req, res){
 app.post('/userSongs',function(req, res){
     query.songsForUser(res, connection, req.body.uname);
 })
+
+app.post('/userPlaylists',function(req, res){
+    query.playlistsForUser(res, connection, req.body.uname);
+})

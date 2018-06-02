@@ -54,5 +54,17 @@ module.exports = {
             if (error) throw Error;
             module.exports.songs(res, connection, results);
         });
+    },
+
+    playlistsForUser: function (res, connection, uname) {
+        console.log('getting playlists for user: ', uname);
+        connection.query("select p._id, p.name \
+        from Playlists as p, UsersPlaylists as up \
+        WHERE p._id = up.playlist_id \
+        AND up.username = '" + uname +"';",
+    function(error, results, fields){
+        if (error) throw error;
+        res.json(results);
+    });
     }
 };
