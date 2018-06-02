@@ -47,7 +47,7 @@ module.exports = {
     },
 
     songsForUser: function (res, connection, uname) {
-        console.log('uname is:',uname);
+        console.log('getting songs for user: ', uname);
         connection.query("SELECT song_id FROM UsersSongs \
     WHERE username = '" + uname + "';",
         function (error, results, fields) {

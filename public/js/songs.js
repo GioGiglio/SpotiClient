@@ -39,7 +39,7 @@ function appendTrack(song,owner){
 
 /**
     Assings an auto-incremented index as the attribute 'value' of a song.
-    @param li: the <li> element representing the song in the songs list.
+    @param li the <li> element representing the song in the songs list.
 */
 function song_assign_index(li,owner){
     var index = (owner === 'user')? indexer.newIndex('mySongs') : indexer.newIndex('allSongs');
@@ -77,6 +77,8 @@ function showMySongs(){
 
     // Get users songs
     var xhttp = new XMLHttpRequest();
+
+    // get current user username
     var data = {uname: 'GioGiglio'};
 
     xhttp.open('POST','/userSongs',true);
@@ -84,7 +86,10 @@ function showMySongs(){
     xhttp.onreadystatechange = function() {
         if (xhttp.readyState == XMLHttpRequest.DONE) {
             console.log('response received');
-            resToSongs(JSON.parse(xhttp.responseText));
+            songs = resToSongs(JSON.parse(xhttp.responseText));
+            songs.forEach(function(song){
+                appendTrack(song,'user');
+            });
         }
     }
 
@@ -92,12 +97,9 @@ function showMySongs(){
     xhttp.send(JSON.stringify(data));
 
 
-    /*
-    // first remove existing songs
+    // remove existing songs
     removeSongs();
     resetIndexes();
-    addMyPlaceholdersSongs();
-    */
 
     // change search field to search in 'your songs'
     $('#search_input').attr('placeholder','Search in your songs...');
@@ -117,5 +119,9 @@ function showAllSongs(){
 }
 
 function resToSongs(response){
-    console.log(response);
+    var songs = [];
+    response.forEach(function(s){
+        songs.push(new Song(s.title, s.artist, s.album, s.img_source, s.audio_source));
+    });
+    return songs;
 }
