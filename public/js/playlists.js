@@ -19,14 +19,6 @@ function showPlaylistContent(index) {
 }
 
 /**
-    Assings an auto-incremented index as the attribute 'value' of a playlist.
-    @param li: the <li> element representing the playlist in the playlists list.
-*/
-function playlist_assign_index(li){
-    $(li).attr('value',String(playlists_index++));
-}
-
-/**
     Creates the html structure of a playlist element, and sets the playlist's name.
     @param name the name to be set to the new playlist.
     @return the <li> element representing the playlist in the playlists list.
@@ -131,4 +123,53 @@ function addPlaceholdersPlaylist(){
 
 function addToPlaylist(song,playlist){
     
+}
+
+function showMyPlaylists(){
+    var data = {uname: 'GioGiglio'};
+    var xhttp = new XMLHttpRequest();
+    xhttp.open('POST','/userPlaylists',true);
+
+    xhttp.onreadystatechange = function() {
+        if (xhttp.readyState == XMLHttpRequest.DONE) {
+            console.log('response received');
+            playlists = parsePlaylists(JSON.parse(xhttp.responseText));
+            playlists.forEach(function(playlist){
+                // appendPlaylist(playlist);
+            });
+
+            // now get songs of each playlist
+            fetchPlaylistsSongs(playlists.map(function(p){return p.id}));
+        }
+    }
+
+    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhttp.send(JSON.stringify(data));
+}
+
+function parsePlaylists(response){
+    var out = [];
+    response.forEach(function(r){
+        out.push(new Playlist(r._id, r.name));
+    });
+    return out;
+}
+
+/**
+ * Fetches the songs contanied in the user's playlists.
+ * @param {Array} ids The array of ids of the playlists.
+ */
+function fetchPlaylistsSongs(ids){
+    var data = JSON.stringify(ids);
+    var xhttp = new XMLHttpRequest();
+    xhttp.open('POST','/playlistsSongs',true);
+
+    xhttp.onreadystatechange = function() {
+        if (xhttp.readyState == XMLHttpRequest.DONE) {
+            console.log('Playlists Songs received');
+        }
+    }
+
+    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhttp.send(data);
 }

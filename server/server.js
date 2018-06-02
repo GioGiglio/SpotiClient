@@ -65,8 +65,14 @@ app.post('/register',function(req, res){
 
 app.post('/userSongs',function(req, res){
     query.songsForUser(res, connection, req.body.uname);
-})
+});
 
 app.post('/userPlaylists',function(req, res){
     query.playlistsForUser(res, connection, req.body.uname);
-})
+});
+
+// Gets a the ids of user's playlists.
+// Returns for each playlist, the ids of the songs contained.
+app.post('/playlistsSongs',function(req, res){
+    query.playlistsSongs(res, connection, req.body);
+});

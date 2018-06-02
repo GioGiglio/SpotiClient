@@ -66,5 +66,10 @@ module.exports = {
         if (error) throw error;
         res.json(results);
     });
+    },
+
+    playlistsSongs: function(res, connection, ids){
+        console.log('getting songs for playlists:', ids);
+        // TODO implement
     }
 };
