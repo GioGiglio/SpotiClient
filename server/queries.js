@@ -16,7 +16,7 @@ module.exports = {
     },
 
     login: function (res, connection, uname, psw) {
-        connection.query("SELECT * FROM Users WHERE username = '" + uname + "' AND psw_hash = '" + psw + "';",
+        connection.query("SELECT * FROM Users WHERE username = '" + uname + "' AND password = '" + psw + "';",
             function (error, results, fields) {
                 if (error) throw error;
 
