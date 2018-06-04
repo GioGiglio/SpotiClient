@@ -122,3 +122,10 @@ function search_filter(){
     }
 
 }
+
+/**
+ * @returns The username associated with the cookie.
+ */
+function parseCookie(){
+    return document.cookie.split(':')[1];
+}
