@@ -20,19 +20,18 @@ function showPlaylistContent(index) {
 
 /**
     Creates the html structure of a playlist element, and sets the playlist's name.
-    @param name the name to be set to the new playlist.
+    @param name The name of the playlist
+    @param id The id to assing to the <li> item representing the playlist.
     @return the <li> element representing the playlist in the playlists list.
 */
-function createPlaylist(name){
+function createPlaylist(name,id){
     var list = $('#playlists > ul')[0];
     
     var li = document.createElement('li');
     $(li).addClass('dropdown');
     
-    // assing index to playlist
-    playlist_assign_index(li);
-    
-    $(li).attr('value',playlists_index);
+    // assing playlist id to <li> element
+    $(li).attr('value',String(id));
     
     var img = document.createElement('img');
     $(img).attr('src','media/playlist.svg');
@@ -75,34 +74,20 @@ function createPlaylist(name){
 }
 
 function appendPlaylist(playlist){
-    var li = createPlaylist(playlist.name);
-    playlist_assign_index(li);
-
-    // Get playlist index
-    var playlists_names = $('.dropdown .playlist_name');
-    var playlist_index = -1;
-
-    for (let i=0; i< playlists_names.length; i++){
-        if ($(playlists_names)[i].text() === playlist.name){
-            playlist_index = i;
-            break;      
-        }
-    }
-
-    if(playlist_index === -1){
-        throw new Error(playlist.name + ' no such playlist');
-    }
+    var li = createPlaylist(playlist.name, playlist.id);
    
     // Append all songs to playlist
-    appendSongsToPlaylist(playlist.songs,playlist_index);
+    for (let i=0; i<playlists.songs.length; i++){
+        addToPlaylist(playlist.song[i],playlist);
+    }
 }
 
 /**
  * Appends a song to the html element representing the list of the songs in a playlist.
  * @param {[Song]} songs The song to be appended to the html playlist item
- * @param {Number} playlist_index The index of the playlist in the playlists list.
+ * @param {Number} playlist_id The id of the playlist.
  */
-function appendSongsToPlaylist(songs, playlist_index){
+function appendSongsToPlaylist(songs, playlist_id){
     
     var li = createPlaylist(playlist.name);
     for(let i=0; i<songs.length; i++){
@@ -121,8 +106,13 @@ function addPlaceholdersPlaylist(){
     createPlaylist('Playlist 5');
 }
 
+/**
+ * 
+ * @param {Song} song The song to add to playlist 
+ * @param {Playlist} playlist the playlist. 
+ */
 function addToPlaylist(song,playlist){
-    
+    console.log('Adding',song.title,'to',playlist.name);
 }
 
 function showMyPlaylists(){
@@ -135,7 +125,7 @@ function showMyPlaylists(){
             console.log('response received');
             playlists = parsePlaylists(JSON.parse(xhttp.responseText));
             playlists.forEach(function(playlist){
-                // appendPlaylist(playlist);
+                appendPlaylist(playlist);
             });
 
             // now get songs of each playlist
