@@ -1,13 +1,3 @@
-/*
-var http = require('http');
-
-http.createServer(function(req, res){
-	res.writeHead(200, {'Content-Type': 'text/html'});
-	res.end(req.toString());
-    
-}).listen(8080);
-*/
-
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
