@@ -2,10 +2,9 @@
     Shows/Hides a playlist.
     @param index: the index of the playlist.
 */
-
 function showPlaylistContent(index) {
     var menu = $('li.dropdown[value='+index+'] div.dropdown_content');
-    console.log('displaying content of playlist with value:',index,'\n',menu);
+    console.log('displaying content of playlist with value:',index);
     if ($(menu).css('display') === 'none') {
         // show menu
         // $(menu).show();
@@ -19,7 +18,7 @@ function showPlaylistContent(index) {
 }
 
 /**
-    Creates the html structure of a playlist element, and sets the playlist's name.
+    Creates the html structure of a playlist element, and sets the playlist's name and id.
     @param name The name of the playlist
     @param id The id to assing to the <li> item representing the playlist.
     @return the <li> element representing the playlist in the playlists list.
@@ -72,12 +71,15 @@ function createPlaylist(name,id){
 
     return li;
 }
-
+/**
+ * Appends a playlist to the playlists list.
+ * @param {Playlist} playlist the playlist to be appendend.
+ */
 function appendPlaylist(playlist){
     var li = createPlaylist(playlist.name, playlist.id);
    
     // Append all songs to playlist
-    for (let i=0; i<playlists.songs.length; i++){
+    for (let i=0; i<playlist.songs.length; i++){
         addToPlaylist(playlist.song[i],playlist);
     }
 }
@@ -157,6 +159,27 @@ function fetchPlaylistsSongs(ids){
     xhttp.onreadystatechange = function() {
         if (xhttp.readyState == XMLHttpRequest.DONE) {
             console.log('Playlists Songs received');
+            var data = JSON.parse(xhttp.responseText);
+            var playlist_ids = data.map(function(e){return e.playlist_id;});
+            
+            for (let i=0; i<playlist_ids.length; i++){
+                var data_songs = data.filter(function(elem){
+                    return elem.playlist_id === playlist_ids[i];
+                });
+
+                /*
+                if songs aren't in songs array
+                Add them in order to reproduce them
+                */
+
+                data_songs.forEach(function(s){
+                    if (songs.indexOf(s) == -1){
+                        console.log('song',s.id,'is not in songs');
+                        // TODO add
+                    } else {console.log('song is in songs');}
+                });
+                console.log(songs);
+            }
         }
     }
 

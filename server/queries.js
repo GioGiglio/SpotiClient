@@ -70,6 +70,21 @@ module.exports = {
 
     playlistsSongs: function(res, connection, ids){
         console.log('getting songs for playlists:', ids);
-        // TODO implement
+
+        var in_clause = '';
+        for(let i=0; i< ids.length; i++){
+            in_clause= in_clause + ids[i] + ',';
+        }
+        in_clause = '(' + in_clause.slice(0, -1) + ')';
+
+        connection.query('select playlist_id, s._id as song_id, s.title as song_title, s.artist as song_artist, \
+        s.album as song_album, s.img_source song_img_source, audio_source as song_audio_source \
+        FROM Songs s, Playlists p, PlaylistsSongs as ps \
+        WHERE p._id in ' + in_clause +' AND ps.playlist_id = p._id AND ps.song_id = s._id;',
+    function(error,result,fileds){
+        if (error) throw error;
+        res.json(result);
+    });
+        
     }
 };
