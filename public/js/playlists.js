@@ -161,10 +161,11 @@ function fetchPlaylistsSongs(ids){
             console.log('Playlists Songs received');
             var data = JSON.parse(xhttp.responseText);
             var playlist_ids = data.map(function(e){return e.playlist_id;});
-            
+            console.log('playlists ids',playlist_ids);
+
             for (let i=0; i<playlist_ids.length; i++){
                 var data_songs = data.filter(function(elem){
-                    return elem.playlist_id === playlist_ids[i];
+                    return elem.playlist_id == playlist_ids[i];
                 });
 
                 /*
@@ -173,12 +174,17 @@ function fetchPlaylistsSongs(ids){
                 */
 
                 data_songs.forEach(function(s){
-                    if (songs.indexOf(s) == -1){
-                        console.log('song',s.id,'is not in songs');
-                        // TODO add
-                    } else {console.log('song is in songs');}
+                    console.log(s);
+                    if(songs.map(function(e){return e.id;}).indexOf(s.song_id) == -1){
+                        
+                        // add to songs
+                        songs.push(new Song(s.song_id, s.song_title, s.song_artist,
+                            s.song_album, s.song_img_source, s.song_audio_source));
+                            console.log('song',s.song_id,'added to list of songs');
+                    } else {
+                        console.log('song',s.song_id,'is already in songs');
+                    }
                 });
-                console.log(songs);
             }
         }
     }
