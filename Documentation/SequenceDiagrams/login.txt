@@ -1,0 +1,7 @@
+title: Login
+User-> Server: Login HTTP Request
+Server -> DBMS: SQL QUERY
+DBMS -> Server: SQL Table
+note over Server: Check if table\n contains 1 row
+Server --> User: HTTP response (link to html page)
+

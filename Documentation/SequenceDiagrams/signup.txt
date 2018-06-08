@@ -1,0 +1,7 @@
+title: Sign up
+User-> Server: Login HTTP Request (user data)
+Server -> DBMS: SQL QUERY
+DBMS -> Server: status code
+note over Server: Check status code
+Server --> User: HTTP response (link to html page)
+

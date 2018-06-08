@@ -1,0 +1,12 @@
+title: Riproduzione brano
+User-> Track: <cliks on>
+Track-> play(): <onclick listener>
+play() -> Server: HTTP conditional GET request
+note over Server: IF: \nsong's file has been modified
+Server -> play(): track new info
+note over play(): Playback starts
+
+note over Server: ELSE: \nSong's file hasn't been modified
+Server -> play(): <304 HTTP>
+note over play(): Playback from cache
+
