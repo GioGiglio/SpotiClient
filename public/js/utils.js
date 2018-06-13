@@ -42,14 +42,14 @@ function addToPlaylistModal(element){
         var playlist = playlistFromId(element.target.getAttribute('value'));
 
         // check if song is already in playlist
-        if (playlist.songs.map(function(x){return x.id;}).indexOf(selected_song_id) !== -1){
+        if (playlist.songs.map(function(x){return x.id;}).indexOf(selected_song.id) == -1){
             // song is not in playlist
             appendSongToPlaylist(selected_song, playlist);
         }
         else{
-            closeModal();
             alert(playlist.name + ' already contains ' + selected_song.title + '!');
         }
+        closeModal();
     });
 }
 
