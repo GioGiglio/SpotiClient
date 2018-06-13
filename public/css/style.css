@@ -122,13 +122,16 @@ li > div > .image:hover {
     float: left;
 }
 
-.playlist_input {
-    /* SEARCH TEXT-BOX */
-    box-sizing: border-box;
+.playlist_edit {
+    /* EDIT BUTTON */
     padding: 5px;
-    width: 100%;
-    
+    width: 70%;
+    border:none;
+    border-radius: 10px;
+    background: limegreen;
+    color:white;
 }
+
 
 .dropdown {
     position: relative;
@@ -246,6 +249,26 @@ a#navbar_playlists {
 
 .modal-content > ul > li {
     padding: 5px;
+}
+
+#editPlaylist input {
+    margin-right:10px;
+}
+
+#editPlaylist li {
+    margin-bottom:0;
+    padding:0;
+}
+
+#editPlaylist button {
+    /* DONE BUTTON */
+    display: block;
+    margin: 0 auto;
+    border: 0;
+    padding: 10px 40px;
+    border-radius: 15px;
+    background: limegreen;
+    color: white;
 }
 
 /* Close Button */

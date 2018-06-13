@@ -43,13 +43,16 @@ function createPlaylist(name,id){
     var dropdown_content = document.createElement('div');
     $(dropdown_content).addClass('dropdown_content').hide();
     
-    var input = document.createElement('input');
-    $(input).addClass('playlist_input').attr('type','text').attr('placeholder','Search...').keyup(function(e){filterPlaylistContent();});
+    var edit = document.createElement('button');
+    $(edit).addClass('playlist_edit').text('Edit songs')
+    .click(function(e){
+        editPlaylistModal(this);
+    });
     
     var playlist_song_list = document.createElement('ul');
     $(playlist_song_list).addClass('playlist_song_list');
     
-    dropdown_content.appendChild(input);
+    dropdown_content.appendChild(edit);
     dropdown_content.appendChild(playlist_song_list);
     
     li.appendChild(img);

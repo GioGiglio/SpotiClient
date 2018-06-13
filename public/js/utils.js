@@ -62,6 +62,55 @@ function closeModal(){
 }
 
 function editPlaylistModal(element){
+    // TODO get clicked playlist
+    var playlist_id = $(element).parent().parent().attr('value');
+    var selected_playlist = playlistFromId(playlist_id);
+
+    // Show modal and playlist's name
+    $('#editPlaylist').show();
+    $('.modal-content > h3').text('Select "' + selected_playlist.name + '" songs:');
+
+    console.log('selected playlist',selected_playlist);
+
+    // show songs
+    var ul = $('.modal-content > ul')[1];
+    var selected_playlist_songs_ids = selected_playlist.songs.map(function(x){return x.id;});
+
+    console.log('songs ids:',selected_playlist_songs_ids);
+    
+    for(let i=0; i< songs.length; i++){
+
+        console.log('in loop');
+
+        var li = document.createElement('li');
+        var input = document.createElement('input');
+        var label = document.createElement('label');
+
+        // Add attributes to elements
+        $(input).attr('type','checkbox').attr('id',songs[i].id);
+        $(label).attr('for',songs[i].id).text(songs[i].title);
+
+        // check songs contained in selected_playlist
+        if(selected_playlist_songs_ids.indexOf(songs[i].id) != -1){
+            // songs[i] is in selected_playlist
+            $(input).prop('checked',true);
+        }
+
+        $(li).attr('value',songs[i].id);
+
+        li.appendChild(input);
+        li.appendChild(label);
+        ul.appendChild(li);
+    }
+}
+
+function editPlaylistClose(){
+    $('#editPlaylist').hide();
+    $('.modal-content > ul').empty();
+}
+
+function updatePlaylistSongs(){
+    // TODO implement
     
 }
 
