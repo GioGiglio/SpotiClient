@@ -93,6 +93,11 @@ function appendSongToPlaylist(song,playlist){
 
     var song_li = document.createElement('li');
     $(song_li).addClass('playlist_song').attr('value',String(song.id));
+    
+    // Add onclick listener
+    $(song_li).click(function(e){
+        play($(this).attr('value'));
+    });
 
     var song_title = document.createElement('span');
     var song_artist = document.createElement('span');
