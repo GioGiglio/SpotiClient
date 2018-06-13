@@ -81,6 +81,20 @@ function showMySongs(){
             songs.forEach(function(song){
                 appendTrack(song,'user');
             });
+
+            // Add playlists songs
+            var songs_ids = songs.map(function(x){return x.id});
+            
+            for (let i=0; i< playlists.length; i++){
+                for (let j=0; j< playlists[i].songs.length; j++){
+                    if (songs_ids.indexOf(playlists[i].songs[j].id) === -1) {
+                        // playlist's song is not in songs
+                        songs.push(playlists[i].songs[j]);
+                        console.log('playlist:',playlists[i].name,
+                        'song:', playlists[i].songs[j].title,'added');
+                    }
+                }
+            }
         }
     }
 
@@ -102,7 +116,25 @@ function showAllSongs(){
 
     // first remove existing songs
     removeSongs();
-    addAllPlaceholdersSongs();
+    
+    // Fetch all songs
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.open('GET','/allSongs',true);
+
+    xhttp.onreadystatechange = function() {
+        if (xhttp.readyState == XMLHttpRequest.DONE) {
+            console.log('all songs received');
+            songs = parseSongs(JSON.parse(xhttp.responseText));
+            songs.forEach(function(song){
+                appendTrack(song,'server');
+            });
+        }
+    }
+
+    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhttp.send();
+
 
     // change search field to search in 'all songs'
     $('#search_input').attr('placeholder','Search a song...');

@@ -73,13 +73,6 @@ function appendPlaylist(playlist){
     }
 }
 
-function addPlaceholdersPlaylist(){
-    createPlaylist('Playlist 1');
-    createPlaylist('Playlist 2');
-    createPlaylist('Playlist 3');
-    createPlaylist('Playlist 4');
-    createPlaylist('Playlist 5');
-}
 
 /**
  * Adds a <li> representing the song, to the html of a playlist item
@@ -88,6 +81,7 @@ function addPlaceholdersPlaylist(){
  */
 function appendSongToPlaylist(song,playlist){
     console.log('Adding',song.title,'to',playlist.name);
+    playlist.addSong(song);
 
     var songs_list = $('.dropdown[value=' + playlist.id+ '] .playlist_song_list')[0];
 
@@ -155,6 +149,13 @@ function fetchPlaylistsSongs(ids){
             console.log('Playlists Songs received');
             var data = JSON.parse(xhttp.responseText);
             var playlist_ids = data.map(function(e){return e.playlist_id;});
+
+            // remove duplicates
+
+            playlist_ids = playlist_ids.filter(function(item, pos, self) {
+                return self.indexOf(item) == pos;
+            })
+
             console.log('playlists ids',playlist_ids);
 
             for (let i=0; i<playlist_ids.length; i++){
