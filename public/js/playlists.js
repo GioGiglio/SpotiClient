@@ -49,18 +49,6 @@ function createPlaylist(name,id){
     var playlist_song_list = document.createElement('ul');
     $(playlist_song_list).addClass('playlist_song_list');
     
-    var song = document.createElement('li');
-    $(song).addClass('playlist_song');
-    
-    var span_title = document.createElement('span');
-    var span_artist = document.createElement('span');
-    span_title.textContent = 'Song Title';
-    span_artist.textContent = 'Song Artist';
-    song.appendChild(span_title);
-    song.appendChild(span_artist);
-    
-    playlist_song_list.appendChild(song);
-    
     dropdown_content.appendChild(input);
     dropdown_content.appendChild(playlist_song_list);
     
