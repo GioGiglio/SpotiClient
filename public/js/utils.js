@@ -1,10 +1,8 @@
 function init(){
     initVars();
-        
+    
     showMySongs();
     showMyPlaylists();
-
-    //addPlaceholdersPlaylist();
 
     // String hashCode prototype
 
@@ -18,6 +16,18 @@ function init(){
         }
         return hash;
     }
+}
+
+function addToPlaylistModal(element){
+    var selected_song_id = $(element).parent().parent().attr('value');
+    var selected_song = songFromId(selected_song_id);
+
+    $('#addToPlaylistModal').show();
+    $('.modal-content > h3').text('Add "' + selected_song.title + '" to:');
+}
+
+function closeModal(){
+    $('#addToPlaylistModal').hide();
 }
 
 /**

@@ -15,7 +15,11 @@ function appendTrack(song,owner){
     node_title.textContent= song.title;
     node_artist.textContent= song.artist;
     node_album.textContent= song.album;
-    $(node_img).addClass('image');
+    // set onclick listener
+    $(node_img).addClass('image').click(function(e){
+        e.stopPropagation();
+        addToPlaylistModal(this);
+    });
     node_img.style.backgroundImage = 'url('+song.imageUrl+')';
     
     // set onclick to play() and add class
