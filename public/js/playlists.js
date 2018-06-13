@@ -71,6 +71,7 @@ function createPlaylist(name,id){
 
     return li;
 }
+
 /**
  * Appends a playlist to the playlists list.
  * @param {Playlist} playlist the playlist to be appendend.
@@ -80,24 +81,8 @@ function appendPlaylist(playlist){
    
     // Append all songs to playlist
     for (let i=0; i<playlist.songs.length; i++){
-        addToPlaylist(playlist.song[i],playlist);
+        appendSongToPlaylist(playlist.song[i],playlist);
     }
-}
-
-/**
- * Appends a song to the html element representing the list of the songs in a playlist.
- * @param {[Song]} songs The song to be appended to the html playlist item
- * @param {Number} playlist_id The id of the playlist.
- */
-function appendSongsToPlaylist(songs, playlist_id){
-    
-    var li = createPlaylist(playlist.name);
-    for(let i=0; i<songs.length; i++){
-        // TODO append songs
-    }
-
-
-    var songs_list = $('.dropdown[value=1] .playlist_song_list');
 }
 
 function addPlaceholdersPlaylist(){
@@ -109,12 +94,28 @@ function addPlaceholdersPlaylist(){
 }
 
 /**
- * 
+ * Adds a <li> representing the song, to the html of a playlist item
  * @param {Song} song The song to add to playlist 
  * @param {Playlist} playlist the playlist. 
  */
-function addToPlaylist(song,playlist){
+function appendSongToPlaylist(song,playlist){
     console.log('Adding',song.title,'to',playlist.name);
+
+    var songs_list = $('.dropdown[value=' + playlist.id+ '] .playlist_song_list')[0];
+
+    var song_li = document.createElement('li');
+    $(song_li).addClass('playlist_song').attr('value',String(song.id));
+
+    var song_title = document.createElement('span');
+    var song_artist = document.createElement('span');
+
+    $(song_title).text(song.title);
+    $(song_artist).text(song.artist);
+
+    song_li.appendChild(song_title);
+    song_li.appendChild(song_artist);
+
+    songs_list.appendChild(song_li);
 }
 
 function showMyPlaylists(){
@@ -170,20 +171,26 @@ function fetchPlaylistsSongs(ids){
 
                 /*
                 if songs aren't in songs array
-                Add them in order to reproduce them
+                Add them in order to be reproduced
                 */
 
                 data_songs.forEach(function(s){
-                    console.log(s);
-                    if(songs.map(function(e){return e.id;}).indexOf(s.song_id) == -1){
+                    var curr_song = new Song(s.song_id, s.song_title, s.song_artist,
+                        s.song_album, s.song_img_source, s.song_audio_source);
+
+                    // Add curr_song to songs if songs doesn't contain it
+                    if(songs.map(function(e){return e.id;}).indexOf(curr_song.id) == -1){
                         
-                        // add to songs
-                        songs.push(new Song(s.song_id, s.song_title, s.song_artist,
-                            s.song_album, s.song_img_source, s.song_audio_source));
+                        // Add to songs
+                        songs.push(curr_song);
                             console.log('song',s.song_id,'added to list of songs');
                     } else {
                         console.log('song',s.song_id,'is already in songs');
                     }
+
+                    // Append curr_song to playlist's html
+                    var curr_playlist = playlists.filter(function(e){return e.id == s.playlist_id})[0];
+                    appendSongToPlaylist(curr_song,curr_playlist);
                 });
             }
         }
