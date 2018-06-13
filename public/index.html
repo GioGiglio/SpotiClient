@@ -41,12 +41,28 @@
                     </ul>
                 </aside>
             </div>
+
+            <!-- AddToPlaylist Modal -->
+            <div id="addToPlaylistModal" class="modal">
+
+                <!-- Modal content -->
+                <div class="modal-content">
+                    <!-- Playlists list -->
+                    <span class="close" onclick="closeModal()">&times;</span>
+                    <h3>Add song.title to</h3>
+                    <ul>
+                        <li value="1">Playlist 1</li>
+                        <li value="2">Playlist 2</li>
+                    </ul>
+                </div>
+            </div>
+
             </nav>
             <!-- PLAYER -->
             <section id="player" class="col-12">
                     <div id="player_image"></div>
                     <h3 id="player_title"></h3>
-                    <audio controls id="music_player" class="col-8">
+                    <audio controls id="music_player" class="col-8" controlsList="nodownload">
                         
                     </audio>
                 </section>

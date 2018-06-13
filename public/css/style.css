@@ -72,6 +72,10 @@ li > div > .image {
     background-size: cover;
 }
 
+li > div > .image:hover {
+    background-image: url('../media/add_to_playlist.svg') !important;
+}
+
 /* --- PLAYER --- */
 
 #player {
@@ -207,6 +211,57 @@ li > div > .image {
 a#navbar_playlists {
     display:none;
 }
+
+
+/* MODAL */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+    display: block;
+}
+
+.modal-content > ul {
+    display:inline-block;
+    list-style-type: none;
+    margin-left: 10px;
+    font-size: 1.1em;
+}
+
+.modal-content > ul > li {
+    padding: 5px;
+}
+
+/* Close Button */
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover, .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
 
 /* Mobile Portrait View */
 
