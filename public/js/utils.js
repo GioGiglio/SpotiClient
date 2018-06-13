@@ -19,24 +19,56 @@ function init(){
 }
 
 function addToPlaylistModal(element){
+    // get clicked song
     var selected_song_id = $(element).parent().parent().attr('value');
     var selected_song = songFromId(selected_song_id);
 
+    // show modal and song title
     $('#addToPlaylistModal').show();
     $('.modal-content > h3').text('Add "' + selected_song.title + '" to:');
+
+    // show playlists
+    var ul = $('.modal-content > ul')[0];
+    
+    for(let i=0; i< playlists.length; i++){
+        var li = document.createElement('li');
+        $(li).attr('value',playlists[i].id).text(playlists[i].name);
+        ul.appendChild(li);
+    }
+
+    // playlist element onclick listener
+    $('.modal-content > ul > li').click(function(element){
+        console.log(element.target);
+        var playlist_id = element.target.getAttribute('value');
+        appendSongToPlaylist(selected_song, playlistFromId(playlist_id));
+        closeModal();
+    });
 }
 
 function closeModal(){
     $('#addToPlaylistModal').hide();
+
+    // remove <li> playlist elements
+    $('.modal-content > ul').empty();
+
 }
 
 /**
- * 
+ * Get a song object by the id
  * @param {*} id The id of the song.
  * @returns The song object having that id.
  */
 function songFromId(id){
     return songs.filter(function(s){return s.id == id})[0];
+}
+
+/**
+ * Get a playlist object by the id
+ * @param {*} id The id of the playlist.
+ * @returns The playlist object having that id.
+ */
+function playlistFromId(id){
+    return playlists.filter(function(s){return s.id == id;})[0];
 }
 
 /**

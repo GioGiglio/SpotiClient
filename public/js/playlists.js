@@ -76,6 +76,7 @@ function appendPlaylist(playlist){
 
 /**
  * Adds a <li> representing the song, to the html of a playlist item
+ * and calls playlist.addSong()
  * @param {Song} song The song to add to playlist 
  * @param {Playlist} playlist the playlist. 
  */
