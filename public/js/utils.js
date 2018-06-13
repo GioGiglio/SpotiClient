@@ -17,7 +17,7 @@ function init(){
         return hash;
     }
 }
-
+// TODO consider moving this to playlists.js
 function addToPlaylistModal(element){
     // get clicked song
     var selected_song_id = $(element).parent().parent().attr('value');
@@ -39,9 +39,17 @@ function addToPlaylistModal(element){
     // playlist element onclick listener
     $('.modal-content > ul > li').click(function(element){
         console.log(element.target);
-        var playlist_id = element.target.getAttribute('value');
-        appendSongToPlaylist(selected_song, playlistFromId(playlist_id));
-        closeModal();
+        var playlist = playlistFromId(element.target.getAttribute('value'));
+
+        // check if song is already in playlist
+        if (playlist.songs.map(function(x){return x.id;}).indexOf(selected_song_id) !== -1){
+            // song is not in playlist
+            appendSongToPlaylist(selected_song, playlist);
+        }
+        else{
+            closeModal();
+            alert(playlist.name + ' already contains ' + selected_song.title + '!');
+        }
     });
 }
 
