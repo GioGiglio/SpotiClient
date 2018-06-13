@@ -95,8 +95,6 @@ function initVars(){
     current_song = undefined;
 
     songs=[];
-
-    summer = new Playlist('Summer');
 }
 
 /**
