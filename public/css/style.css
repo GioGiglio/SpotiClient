@@ -135,6 +135,7 @@ li > div > .image:hover {
     display: block;
     overflow:auto;
     margin-bottom: 15px;
+    max-height: 50%;
 }
 
 .dropdown_content li {
