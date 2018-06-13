@@ -66,3 +66,7 @@ app.post('/userPlaylists',function(req, res){
 app.post('/playlistsSongs',function(req, res){
     query.playlistsSongs(res, connection, req.body);
 });
+
+app.get('/allSongs',function(req,res){
+    query.allSongs(res,connection);
+});

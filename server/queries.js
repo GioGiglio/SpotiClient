@@ -81,10 +81,18 @@ module.exports = {
         s.album as song_album, s.img_source song_img_source, audio_source as song_audio_source \
         FROM Songs s, Playlists p, PlaylistsSongs as ps \
         WHERE p._id in ' + in_clause +' AND ps.playlist_id = p._id AND ps.song_id = s._id;',
-    function(error,result,fileds){
+    function(error,result,fields){
         if (error) throw error;
         res.json(result);
-    });
-        
+    }); 
+    },
+
+    allSongs: function(res,connection){
+        console.log('getting all songs');
+
+        connection.query('select * from Songs;', function(error, result, fields){
+            if (error) throw error;
+            res.json(result);
+        });
     }
 };
