@@ -61,6 +61,10 @@ function closeModal(){
 
 }
 
+function editPlaylistModal(element){
+    
+}
+
 /**
  * Get a song object by the id
  * @param {*} id The id of the song.
