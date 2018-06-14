@@ -251,6 +251,15 @@ a#navbar_playlists {
 
 .modal-content > ul > li {
     padding: 5px;
+    margin-bottom: 5px;
+}
+
+.modal-content > ul > li:first-child {
+    /* Add to My Songs <li> */
+    background-color: limegreen;
+    border-radius: 15px;
+    text-align: center;
+    color: white;
 }
 
 #editPlaylist input {

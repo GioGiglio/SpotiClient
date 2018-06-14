@@ -29,6 +29,10 @@ function addToPlaylistModal(element){
 
     // show playlists
     var ul = $('.modal-content > ul')[0];
+
+    var addToMySongs = document.createElement('li');
+    $(addToMySongs).attr('value',-1).text('My Songs');
+    ul.appendChild(addToMySongs);
     
     for(let i=0; i< playlists.length; i++){
         var li = document.createElement('li');
@@ -68,6 +72,34 @@ function addToPlaylistModal(element){
         }
         closeModal();
     });
+
+    // first element (Add To My Songs) click listener
+    $('.modal-content > ul > li:first-child').unbind('click').click(function(){
+        songs.push(selected_song);
+
+        // Add to UserSongs Server side and DB
+
+        var data = {
+            username: 'GioGiglio',
+            song_id: selected_song_id
+        };
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.open('POST','/addToUserSongs', true);
+        xhttp.onreadystatechange = function() {
+            if (xhttp.readyState == XMLHttpRequest.DONE){
+
+            }
+        }
+        xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhttp.send(JSON.stringify(data));
+
+        closeModal();
+    });
+
+    /* TODO if song is already in user songs:
+        display remove from My Songs as the first button
+    */
 }
 
 function closeModal(){

@@ -57,6 +57,20 @@ app.post('/userSongs',function(req, res){
     query.songsForUser(res, connection, req.body.uname);
 });
 
+app.post('/addToUserSongs',function(req, res){
+    var uname = req.body.username;
+    var song_id = req.body.song_id;
+
+    query.addUserSong(res, connection,uname, song_id);
+});
+
+app.post('/removeFromUserSongs',function(req, res){
+    var uname = req.body.username;
+    var song_id = req.body.song_id;
+
+    query.removeUserSong(res, connection,uname, song_id);
+});
+
 app.post('/userPlaylists',function(req, res){
     query.playlistsForUser(res, connection, req.body.uname);
 });

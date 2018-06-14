@@ -129,6 +129,18 @@ module.exports = {
             if (e) throw e;
             return r;
         });
+    },
+
+    addUserSong: function(res, connection,uname, song_id){
+        console.log('adding song', song_id,'to user',uname);
+
+        connection.query('\
+        INSERT INTO UsersSongs \
+        VALUES ("' + uname + '", ' + song_id + ') \
+        ;', function(e,r,f){
+            if (e) throw e;
+            res.json(r);
+        });
     }
 
 };
