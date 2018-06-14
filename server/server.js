@@ -70,3 +70,10 @@ app.post('/playlistsSongs',function(req, res){
 app.get('/allSongs',function(req,res){
     query.allSongs(res,connection);
 });
+
+app.post('/updatePlaylist', function(req,res){
+    var playlist_id = req.body.playlist_id;
+    var to_add = req.body.to_add;
+    var to_remove = req.body.to_remove;
+    query.updatePlaylist(res,connection, playlist_id, to_add, to_remove);
+});

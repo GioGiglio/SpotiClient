@@ -140,7 +140,26 @@ function updatePlaylistSongs(playlist){
     console.log('to add', to_add);
     console.log('to remove',to_remove);
 
-    // TODO change in server
+    // Update playlist in database
+    var xhttp = new XMLHttpRequest();
+
+    var data = {
+        playlist_id: playlist.id ,
+        to_add: to_add ,
+        to_remove: to_remove
+    };
+
+    xhttp.open('POST','/updatePlaylist',true);
+
+    xhttp.onreadystatechange = function() {
+        if (xhttp.readyState == XMLHttpRequest.DONE) {
+            console.log('response received');
+
+        }
+    }
+
+    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhttp.send(JSON.stringify(data));
 }
 
 /**

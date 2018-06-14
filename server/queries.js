@@ -94,5 +94,44 @@ module.exports = {
             if (error) throw error;
             res.json(result);
         });
+    },
+
+    updatePlaylist: function(res, connection, playlist_id, to_add, to_remove){
+        console.log('updating playlist',playlist_id,'adding songs',to_add,'removing songs',to_remove);
+
+        if (to_remove.length > 0){
+            // There are songs to remove
+
+            var in_clause_rem = '';
+            for(let i=0; i< to_remove.length; i++){
+                in_clause_rem = in_clause_rem + to_remove[i] + ',';
+            }
+            in_clause_rem = '(' + in_clause_rem.slice(0, -1) + ')';
+
+            connection.query(' \
+            DELETE FROM PlaylistsSongs \
+            WHERE playlist_id = ' + playlist_id +' \
+            AND song_id IN ' + in_clause_rem + ' ;', (e,r,f) => {
+                if (e) throw e;
+            });
+        }
+        
+        if (to_add.length > 0){
+            // There are songs to add
+
+            var values_add = '';
+            for(let i=0; i<to_add.length; i++){
+                values_add = values_add + '(' +playlist_id + ',' + to_add[i] + '),';
+            }
+            values_add = values_add.slice(0,-1);
+
+            connection.query(' \
+            INSERT INTO PlaylistsSongs \
+            VALUES ' + values_add + ' ;', (e,r,f) => {
+                if (e) throw e;
+            });
+        }
+
+        res.sendStatus(200);
     }
 };
