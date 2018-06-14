@@ -75,7 +75,7 @@ app.post('/updatePlaylist', function(req,res){
     var playlist_id = req.body.playlist_id;
     var to_add = req.body.to_add;
     var to_remove = req.body.to_remove;
-    
+
     var r;
     if (to_add.length > 0){
         r = query.addSongsToPlaylist(connection,playlist_id,to_add);

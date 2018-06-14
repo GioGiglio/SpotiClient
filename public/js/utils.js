@@ -45,6 +45,23 @@ function addToPlaylistModal(element){
         if (playlist.songs.map(function(x){return x.id;}).indexOf(selected_song.id) == -1){
             // song is not in playlist
             appendSongToPlaylist(selected_song, playlist);
+            
+            // updatePlaylist serverside and DB
+            var data = {
+                playlist_id: playlist.id,
+                to_add: [Number(selected_song_id)],
+                to_remove: []
+            };
+
+            var xhttp = new XMLHttpRequest();
+            xhttp.open('POST','/updatePlaylist',true);
+            xhttp.onreadystatechange = function() {
+                if (xhttp.readyState == XMLHttpRequest.DONE) {
+                    
+                }
+            }
+            xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xhttp.send(JSON.stringify(data));
         }
         else{
             alert(playlist.name + ' already contains ' + selected_song.title + '!');
