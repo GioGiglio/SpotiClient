@@ -254,6 +254,20 @@ function initVars(){
     current_song = undefined;
 
     songs=[];
+
+    // player on completition listener
+    $(player).on('ended', function(){
+        var curr_song_index = songs.indexOf(current_song);
+
+        if (curr_song_index < songs.length -1){
+            console.log('PLAYER: Playing next song');
+            var next_song_id = songs[curr_song_index+1].id;
+            play(next_song_id);
+        }
+        else {
+            console.log('PLAYER: Nothing to play');
+        }
+    });
 }
 
 /**
