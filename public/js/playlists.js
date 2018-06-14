@@ -205,4 +205,11 @@ function fetchPlaylistsSongs(ids){
 
 function playPlaylist (element){
     // TODO implement
+    var playlist_id = $(element).parent().parent().attr('value');
+    var playlist  = playlistFromId(playlist_id);
+
+    for(let i= playlist.songs.length-1; i >=0; i--){
+        playing_queue.unshift(playlist.songs[i]);
+    }
+    console.log('playing queue',playing_queue);
 }
