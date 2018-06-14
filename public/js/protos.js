@@ -15,6 +15,15 @@ function Playlist (id, name){
 	this.addSong = function(song){
 		this.songs.push(song);
 	}
+	this.removeSong = function(id){
+		var index = this.songs.indexOf(this.songs.find((x) => x.id == id));
+		if (index != -1){
+			this.songs.splice(index,1);
+		}
+		else {
+			throw new Error ('Playlist.removeSong(' + id + '): No such song having such id');
+		}
+	}
 }
 
 function Indexer(){
