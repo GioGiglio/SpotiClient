@@ -110,8 +110,16 @@ function editPlaylistClose(){
 }
 
 function updatePlaylistSongs(){
-    // TODO implement
+    // get Checked and Unchecked songs
+    var checked_ids = [];
+    var Unchecked = [];
+
+    var check = $('.modal-content > ul > li > input:checked')
     
+    for (let i=0; i< check.length; i++){
+        checked_ids.push($(check[i]).parent().attr('value'));
+    }
+
 }
 
 /**

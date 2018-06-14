@@ -41,11 +41,6 @@ function appendTrack(song,owner){
     console.log('Track appended');
 }
 
-function resetIndexes(){
-    indexer.clear('mySongs');
-    indexer.clear('allSongs');
-}
-
 function addMyPlaceholdersSongs(){
     for(let i=0; i<songs.length; i++){
         appendTrack(songs[i],'user');
@@ -150,4 +145,12 @@ function parseSongs(response){
         out.push(new Song(s._id, s.title, s.artist, s.album, s.img_source, s.audio_source));
     });
     return out;
+}
+
+/**
+ * Adds a song to user's songs
+ * @param {Song} song the song to be added
+ */
+function addToMySongs(song){
+    
 }
