@@ -111,8 +111,10 @@ module.exports = {
             connection.query(' \
             DELETE FROM PlaylistsSongs \
             WHERE playlist_id = ' + playlist_id +' \
-            AND song_id IN ' + in_clause_rem + ' ;', (e,r,f) => {
+            AND song_id IN ' + in_clause_rem + ' ;', function(e,r,f){
                 if (e) throw e;
+
+                if(to_add.length == 0) res.json(r);
             });
         }
         
@@ -127,11 +129,12 @@ module.exports = {
 
             connection.query(' \
             INSERT INTO PlaylistsSongs \
-            VALUES ' + values_add + ' ;', (e,r,f) => {
+            VALUES ' + values_add + ' ;', function(e,r,f){
                 if (e) throw e;
+                res.json(r);
             });
         }
 
-        res.sendStatus(200);
+        //res.sendStatus(200);
     }
 };

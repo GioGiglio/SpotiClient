@@ -24,4 +24,7 @@ function Playlist (id, name){
 			throw new Error ('Playlist.removeSong(' + id + '): No such song having such id');
 		}
 	}
+	this.removeAllSongs = function(){
+		this.songs = [];
+	}
 }

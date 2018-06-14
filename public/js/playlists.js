@@ -44,8 +44,7 @@ function createPlaylist(name,id){
     $(dropdown_content).addClass('dropdown_content').hide();
     
     var edit = document.createElement('button');
-    $(edit).addClass('playlist_edit').text('Edit songs')
-    .click(function(e){
+    $(edit).addClass('playlist_edit').text('Edit songs').click(function(e){
         editPlaylistModal(this);
     });
     

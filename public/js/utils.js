@@ -102,7 +102,7 @@ function editPlaylistModal(element){
     }
 
     // done button onClick listener
-    $('#editPlaylist button').click(function(e){
+    $('#editPlaylist button').unbind('click').click(function(e){
         updatePlaylistSongs(selected_playlist);
     });
 
@@ -154,12 +154,20 @@ function updatePlaylistSongs(playlist){
     xhttp.onreadystatechange = function() {
         if (xhttp.readyState == XMLHttpRequest.DONE) {
             console.log('response received');
+            
+            // delete html song elements from playlist
+            $('.playlist_song_list').empty();
+            playlist.removeAllSongs();
 
+            // re-fetch songs
+            console.log('utils.UpdatePlaylistSongs calls fetchPlaylistsSongs()');
+            fetchPlaylistsSongs([playlist.id]);
         }
     }
 
     xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xhttp.send(JSON.stringify(data));
+    editPlaylistClose();
 }
 
 /**
