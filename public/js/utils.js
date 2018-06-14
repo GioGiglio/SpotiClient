@@ -80,8 +80,6 @@ function editPlaylistModal(element){
     
     for(let i=0; i< songs.length; i++){
 
-        console.log('in loop');
-
         var li = document.createElement('li');
         var input = document.createElement('input');
         var label = document.createElement('label');
@@ -102,6 +100,12 @@ function editPlaylistModal(element){
         li.appendChild(label);
         ul.appendChild(li);
     }
+
+    // done button onClick listener
+    $('#editPlaylist button').click(function(e){
+        updatePlaylistSongs(selected_playlist);
+    });
+
 }
 
 function editPlaylistClose(){
@@ -109,17 +113,34 @@ function editPlaylistClose(){
     $('.modal-content > ul').empty();
 }
 
-function updatePlaylistSongs(){
+function updatePlaylistSongs(playlist){
     // get Checked and Unchecked songs
     var checked_ids = [];
-    var Unchecked = [];
+    var unchecked_ids = [];
+    var songs_ids = playlist.songs.map((x) => x.id);
 
     var check = $('.modal-content > ul > li > input:checked')
+    var uncheck = $('.modal-content > ul > li > input:not(:checked)')
     
     for (let i=0; i< check.length; i++){
-        checked_ids.push($(check[i]).parent().attr('value'));
+        checked_ids.push(Number($(check[i]).parent().attr('value')));
     }
 
+    for (let i=0; i< uncheck.length; i++){
+        unchecked_ids.push(Number($(uncheck[i]).parent().attr('value')));
+    }
+
+    console.log('checked:',checked_ids);
+    console.log('unchecked:',unchecked_ids);
+
+    // Songs to be added and removed
+    var to_add = checked_ids.filter((x) => songs_ids.indexOf(x) == -1);
+    var to_remove = unchecked_ids.filter((x) => songs_ids.indexOf(x) != -1);
+
+    console.log('to add', to_add);
+    console.log('to remove',to_remove);
+
+    // TODO change in server
 }
 
 /**
