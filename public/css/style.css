@@ -122,14 +122,15 @@ li > div > .image:hover {
     float: left;
 }
 
-.playlist_edit {
-    /* EDIT BUTTON */
+.playlist_btn {
+    /* BUTTONS */
     padding: 5px;
-    width: 70%;
+    width: 40%;
     border:none;
     border-radius: 10px;
     background: limegreen;
     color:white;
+    margin-right: 10px;
 }
 
 

@@ -254,7 +254,8 @@ function initVars(){
     current_song = undefined;
 
     songs=[];
-
+    playing_queue = [];
+    
     // player on completition listener
     $(player).on('ended', function(){
         var curr_song_index = songs.indexOf(current_song);

@@ -43,14 +43,20 @@ function createPlaylist(name,id){
     var dropdown_content = document.createElement('div');
     $(dropdown_content).addClass('dropdown_content').hide();
     
+    var play = document.createElement('button');
+    $(play).addClass('playlist_btn').text('Play').click(function(e){
+        playPlaylist(this);
+    });
+
     var edit = document.createElement('button');
-    $(edit).addClass('playlist_edit').text('Edit songs').click(function(e){
+    $(edit).addClass('playlist_btn').text('Edit songs').click(function(e){
         editPlaylistModal(this);
     });
     
     var playlist_song_list = document.createElement('ul');
     $(playlist_song_list).addClass('playlist_song_list');
     
+    dropdown_content.appendChild(play);
     dropdown_content.appendChild(edit);
     dropdown_content.appendChild(playlist_song_list);
     
@@ -195,4 +201,8 @@ function fetchPlaylistsSongs(ids){
 
     xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xhttp.send(data);
+}
+
+function playPlaylist (element){
+    // TODO implement
 }
