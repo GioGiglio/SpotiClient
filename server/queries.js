@@ -96,45 +96,39 @@ module.exports = {
         });
     },
 
-    updatePlaylist: function(res, connection, playlist_id, to_add, to_remove){
-        console.log('updating playlist',playlist_id,'adding songs',to_add,'removing songs',to_remove);
+    addSongsToPlaylist: function(connection,playlist_id, songs){
+        console.log('adding songs ',songs, 'to playlist',playlist_id);
 
-        if (to_remove.length > 0){
-            // There are songs to remove
-
-            var in_clause_rem = '';
-            for(let i=0; i< to_remove.length; i++){
-                in_clause_rem = in_clause_rem + to_remove[i] + ',';
-            }
-            in_clause_rem = '(' + in_clause_rem.slice(0, -1) + ')';
-
-            connection.query(' \
-            DELETE FROM PlaylistsSongs \
-            WHERE playlist_id = ' + playlist_id +' \
-            AND song_id IN ' + in_clause_rem + ' ;', function(e,r,f){
-                if (e) throw e;
-
-                if(to_add.length == 0) res.json(r);
-            });
+        var values = '';
+        for(let i=0; i<songs.length; i++){
+            values = values + '(' +playlist_id + ',' + songs[i] + '),';
         }
-        
-        if (to_add.length > 0){
-            // There are songs to add
+        values = values.slice(0,-1);
 
-            var values_add = '';
-            for(let i=0; i<to_add.length; i++){
-                values_add = values_add + '(' +playlist_id + ',' + to_add[i] + '),';
-            }
-            values_add = values_add.slice(0,-1);
+        connection.query(' \
+        INSERT INTO PlaylistsSongs \
+        VALUES ' + values + ' ;', function(e,r,f){
+            if (e) throw e;
+            return r;
+        });
+    },
 
-            connection.query(' \
-            INSERT INTO PlaylistsSongs \
-            VALUES ' + values_add + ' ;', function(e,r,f){
-                if (e) throw e;
-                res.json(r);
-            });
+    removeSongsFromPlaylist: function(connection, playlist_id, songs){
+        console.log('removing songs', songs, 'from playlist', playlist_id);
+
+        var in_clause = '';
+        for(let i=0; i< songs.length; i++){
+            in_clause = in_clause + songs[i] + ',';
         }
+        in_clause = '(' + in_clause.slice(0, -1) + ')';
 
-        //res.sendStatus(200);
+        connection.query(' \
+        DELETE FROM PlaylistsSongs \
+        WHERE playlist_id = ' + playlist_id +' \
+        AND song_id IN ' + in_clause + ' ;', function(e,r,f){
+            if (e) throw e;
+            return r;
+        });
     }
+
 };
