@@ -24,11 +24,12 @@ body {
 form {
     margin:auto;
     width: 50%;
+    text-align: center;
 }
 
 #container > div {
     margin:auto;
-    width: 50%;
+    width: 40%;
     background-color:white;
     padding: 20px;
     border-radius: 0 0 20px 20px;
@@ -40,7 +41,7 @@ form > input, #login_btn {
 }
 */
 
-#login_btn {
+#login_btn, #logup {
     margin-right: 20px;
     background-color:#05a505;
     color:white;
@@ -57,7 +58,7 @@ label {
 }
 
 form > input {
-    display: block;
+    display: inline-block;
     border:1px;
     border-radius: 15px;
     padding: 10px;

@@ -14,13 +14,13 @@
 
             <!-- LOGIN FORM -->
             <form id="login_form" name="login" action="/login" method="POST">
-                <label for="uname">Username</label>
+                <label for="uname">Username</label> <br>
                 <input type="text" placeholder="Enter Username" name="uname" required maxlength="20">
-
-                <label for="psw">Password</label>
+                <br>
+                <label for="psw">Password</label> <br>
                 <input type="password" placeholder="Enter Password" name="psw" required maxlength="15">
-
-                <label>
+                
+                <label> <br>
                     <input type="checkbox" checked="checked" name="remember"> Remember me <br/>
                 </label>
 
@@ -28,25 +28,25 @@
             </form>
 
             <span id="nyr">Not yet registered?</span>
-            <button id="logup_btn" onclick="showLogup()">Log up</button>
+            <button id="logup_btn" onclick="showLogup()">Sign up</button>
 
             <button id="backto_login" onclick="showLogin()" style="display:none">Return to login</button>
 
             <!-- LOGUP FORM -->
             <form id="logup_form" name="logup" method="post" action="/register">
-                <label for="username">Username </label>
+                <label for="username">Username </label> <br>
                 <input type="text" placeholder="Pick a username" name="username" required maxlength="20">
-                
-                <label for="email">Email </label>
+                <br>
+                <label for="email">Email </label> <br>
                 <input type="email" placeholder="you@example.com" name="email" required maxlength="50">
-                
-                <label for="psw1">Password</label>
+                <br>
+                <label for="psw1">Password</label> <br>
                 <input type="password" placeholder="Create a password" name="psw1" required maxlength="15">
-                
-                <label for="psw2">Confirm Password</label>
+                <br>
+                <label for="psw2">Confirm Password</label> <br>
                 <input type="password" placeholder="Write again password" name="psw2" required maxlength="15">
                 
-                <button id="logup" type="submit" onclick="return logupCheck()">Log up</button>
+                <button id="logup" type="submit" onclick="return logupCheck()">Sign up</button>
             </form>
         </div>
     </div>
