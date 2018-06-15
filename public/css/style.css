@@ -14,6 +14,10 @@
 
 }
 
+button {
+    cursor: pointer;
+}
+
 #container {
     /* Full Height container TODO REMOVE*/
     height: 100vh;
@@ -128,8 +132,7 @@ li > div > .image:hover {
 
 .playlist_btn {
     /* BUTTONS */
-    padding: 5px;
-    width: 40%;
+    padding: 5px 15px;
     border:none;
     border-radius: 10px;
     background: limegreen;

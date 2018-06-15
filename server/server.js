@@ -106,3 +106,9 @@ app.post('/createPlaylist',function(req,res){
 
     query.newPlaylist(res,connection,uname,playlist_name);
 })
+
+app.post('/deletePlaylist', function(req, res){
+    var playlist_id = req.body.playlist_id;
+    
+    query.deletePlaylist(res, connection, playlist_id);
+});

@@ -185,5 +185,32 @@ module.exports = {
             });
         });
         
+    },
+
+    deletePlaylist: function(res, connection, playlist_id){
+        console.log('deleting playlist',playlist_id);
+
+        // first remove entry from Playlists table
+        connection.query(' \
+        DELETE FROM Playlists \
+        WHERE _id = ' + playlist_id + ';', function(e,r,f){
+            if (e){
+                throw e;
+                res.sendStatus(500);
+                return;
+            }
+
+            // remove association with users
+            connection.query(' \
+            DELETE FROM UsersPlaylists \
+            WHERE playlist_id = ' + playlist_id + ';', function(e,r,f){
+                if (e){
+                    throw e;
+                    res.sendStatus(500);
+                } else {
+                    res.sendStatus(200);
+                }
+            });
+        });
     }
 };

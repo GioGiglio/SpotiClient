@@ -362,3 +362,33 @@ function search_filter(){
 function parseCookie(){
     return document.cookie.split(':')[1];
 }
+
+function deletePlaylistAlert(element){
+    var playlist_id = $(element).parent().parent().attr('value');
+    var playlist = playlistFromId(playlist_id);
+
+    if (confirm('Are you sure to delete playlist "' + playlist.name+ '" ? \n' + 
+                'This action cannot be reverted')){
+        console.log('deleting playlist', playlist.name);
+
+        var xhttp = new XMLHttpRequest();
+        var data = {
+            playlist_id: playlist_id
+        };
+
+        xhttp.open('POST','/deletePlaylist',true);
+        xhttp.onreadystatechange = function() {
+            if (xhttp.readyState == XMLHttpRequest.DONE) {
+                if (xhttp.status == 200){
+                    console.log('playlist removed');
+                }
+                else {
+                    alert ('Server errors while removing playlist');
+                }
+            }
+        }
+
+        xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhttp.send(JSON.stringify(data));
+    }
+}

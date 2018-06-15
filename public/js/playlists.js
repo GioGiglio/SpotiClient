@@ -52,12 +52,19 @@ function createPlaylist(name,id){
     $(edit).addClass('playlist_btn').text('Edit songs').click(function(e){
         editPlaylistModal(this);
     });
+
+    var delete_btn = document.createElement('button');
+    $(delete_btn).addClass('playlist_btn').text('Delete')
+    .css('background-color','#ee1111').click(function(){
+        deletePlaylistAlert(this);
+    });
     
     var playlist_song_list = document.createElement('ul');
     $(playlist_song_list).addClass('playlist_song_list');
     
     dropdown_content.appendChild(play);
     dropdown_content.appendChild(edit);
+    dropdown_content.appendChild(delete_btn);
     dropdown_content.appendChild(playlist_song_list);
     
     li.appendChild(img);
