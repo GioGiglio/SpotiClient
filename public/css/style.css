@@ -254,7 +254,7 @@ a#navbar_playlists {
     margin-bottom: 5px;
 }
 
-.modal-content > ul > li:first-child {
+#addToPlaylistModal > .modal-content > ul > li:first-child {
     /* Add to My Songs <li> */
     background-color: limegreen;
     border-radius: 15px;

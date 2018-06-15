@@ -75,10 +75,23 @@ function showMySongs(){
 
     xhttp.onreadystatechange = function() {
         if (xhttp.readyState == XMLHttpRequest.DONE) {
-            console.log('response received');
+            console.log('user songs received');
+
+            // delete current user_songs_ids;
+            user_songs_ids = [];
+
             songs = parseSongs(JSON.parse(xhttp.responseText));
+
+            if (songs.length == 0){
+                // No songs for user
+                return;
+            }
+
             songs.forEach(function(song){
                 appendTrack(song,'user');
+
+                // add to user_songs_ids
+                user_songs_ids.push(song.id);
             });
 
             // Add playlists songs
@@ -149,8 +162,54 @@ function parseSongs(response){
 
 /**
  * Adds a song to user's songs
- * @param {Song} song the song to be added
+ * @param {Song} song_id the id of the song to be added
  */
-function addToMySongs(song){
-    
+function addToMySongs(song_id){
+    // add to songs
+    songs.push(songFromId(song_id));
+
+    // Add to UserSongs Server side and DB
+
+    var data = {
+        username: 'GioGiglio',
+        song_id: song_id
+    };
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.open('POST','/addToUserSongs', true);
+    xhttp.onreadystatechange = function() {
+        if (xhttp.readyState == XMLHttpRequest.DONE){
+            console.log(song_id,'added to user songs');
+        }
+    }
+    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhttp.send(JSON.stringify(data));
+}
+
+/**
+ * Removes a song from the user's songs
+ * @param {Song} song_id the id of the song to be removed
+ */
+function removeFromMySongs(song_id){
+    // remove from songs
+    var index = songs.indexOf(songs.find((x) => x.id == song_id));
+    if (index != -1) songs.splice(index,1);
+
+    // Remove from UserSongs Server side and DB
+
+    var data = {
+        username: 'GioGiglio',
+        song_id: song_id
+    };
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.open('POST','/removeFromUserSongs', true);
+    xhttp.onreadystatechange = function() {
+        if (xhttp.readyState == XMLHttpRequest.DONE){
+            console.log(song_id,'removed from user songs');
+            showMySongs();
+        }
+    }
+    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhttp.send(JSON.stringify(data));
 }

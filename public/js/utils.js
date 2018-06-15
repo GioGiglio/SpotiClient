@@ -30,9 +30,25 @@ function addToPlaylistModal(element){
     // show playlists
     var ul = $('.modal-content > ul')[0];
 
-    var addToMySongs = document.createElement('li');
-    $(addToMySongs).attr('value',-1).text('My Songs');
-    ul.appendChild(addToMySongs);
+    // Add To / Remove From my songs
+    var mySongsBtn = document.createElement('li');
+
+    if (user_songs_ids.indexOf(Number(selected_song_id)) == -1){
+        // selected_song is not in user's songs
+        $(mySongsBtn).text('My Songs').click(function(){
+            addToMySongs(selected_song_id);
+            closeModal();
+        });
+    }
+    else {
+        // selected_song is already in user's songs
+        $(mySongsBtn).text('Remove from My Songs').css('background-color','#ee1111').click(function(){
+            removeFromMySongs(selected_song_id);
+            closeModal();
+        });
+    }
+    
+    ul.appendChild(mySongsBtn);
     
     for(let i=0; i< playlists.length; i++){
         var li = document.createElement('li');
@@ -41,7 +57,7 @@ function addToPlaylistModal(element){
     }
 
     // playlist element onclick listener
-    $('.modal-content > ul > li').click(function(element){
+    $('.modal-content > ul > li:not(:first-child)').click(function(element){
         console.log(element.target);
         var playlist = playlistFromId(element.target.getAttribute('value'));
 
@@ -72,34 +88,6 @@ function addToPlaylistModal(element){
         }
         closeModal();
     });
-
-    // first element (Add To My Songs) click listener
-    $('.modal-content > ul > li:first-child').unbind('click').click(function(){
-        songs.push(selected_song);
-
-        // Add to UserSongs Server side and DB
-
-        var data = {
-            username: 'GioGiglio',
-            song_id: selected_song_id
-        };
-
-        var xhttp = new XMLHttpRequest();
-        xhttp.open('POST','/addToUserSongs', true);
-        xhttp.onreadystatechange = function() {
-            if (xhttp.readyState == XMLHttpRequest.DONE){
-
-            }
-        }
-        xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        xhttp.send(JSON.stringify(data));
-
-        closeModal();
-    });
-
-    /* TODO if song is already in user songs:
-        display remove from My Songs as the first button
-    */
 }
 
 function closeModal(){
@@ -304,6 +292,7 @@ function initVars(){
 
     songs=[];
     playing_queue = [];
+    user_songs_ids = [];
     
     // player on completition listener
     $(player).on('ended', function(){

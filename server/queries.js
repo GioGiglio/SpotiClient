@@ -52,7 +52,15 @@ module.exports = {
     WHERE username = '" + uname + "';",
         function (error, results, fields) {
             if (error) throw Error;
-            module.exports.songs(res, connection, results);
+            console.log('result is ',results);
+            if (results.length == 0){
+                console.log('No songs for user', uname);
+                res.json(results);
+            }
+            else {
+                // request songs
+                module.exports.songs(res, connection, results);
+            }
         });
     },
 
@@ -138,6 +146,17 @@ module.exports = {
         INSERT INTO UsersSongs \
         VALUES ("' + uname + '", ' + song_id + ') \
         ;', function(e,r,f){
+            if (e) throw e;
+            res.json(r);
+        });
+    },
+
+    removeUserSong: function(res, connection,uname, song_id){
+        console.log('removing song', song_id,'from user',uname);
+
+        connection.query('\
+        DELETE FROM UsersSongs \
+        WHERE username = "' + uname + '" AND song_id =  ' + song_id + ' ;', function(e,r,f){
             if (e) throw e;
             res.json(r);
         });
