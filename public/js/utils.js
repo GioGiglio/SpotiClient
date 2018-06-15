@@ -77,7 +77,12 @@ function addToPlaylistModal(element){
             xhttp.open('POST','/updatePlaylist',true);
             xhttp.onreadystatechange = function() {
                 if (xhttp.readyState == XMLHttpRequest.DONE) {
-                    
+                    if (xhttp.status == 200){
+                        console.log('Song added to playlist');
+                    }
+                    else {
+                        alert('Server errors while adding song to playlist');
+                    }
                 }
             }
             xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -190,7 +195,13 @@ function updatePlaylistSongs(playlist){
 
     xhttp.onreadystatechange = function() {
         if (xhttp.readyState == XMLHttpRequest.DONE) {
-            console.log('response received');
+            if (xhttp.status == 200){
+                console.log('Playlist updated');
+            }
+            else {
+                alert('Server errors while adding song to playlist');
+                return;
+            }
             
             // delete html song elements from playlist
             $('.playlist_song_list').empty();
@@ -390,5 +401,9 @@ function deletePlaylistAlert(element){
 
         xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
         xhttp.send(JSON.stringify(data));
+        
+        // remove <html> for playlists
+        $('#playlists > ul').empty();
+        showMyPlaylists();
     }
 }

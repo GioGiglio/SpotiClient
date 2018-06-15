@@ -10,8 +10,12 @@ module.exports = {
 
         connection.query('SELECT * FROM Songs WHERE _id IN ' + in_clause + ';',
         function (error, results, fields) {
-            if (error) throw error;
-            res.json(results);
+            if (error){
+                throw error;
+                res.sendStatus(500);
+            } else {
+                res.status(200).json(results);
+            }
         });
     },
 
@@ -51,8 +55,11 @@ module.exports = {
         connection.query("SELECT song_id FROM UsersSongs \
     WHERE username = '" + uname + "';",
         function (error, results, fields) {
-            if (error) throw Error;
-            console.log('result is ',results);
+            if (error){
+                throw Error;
+                res.sendStatus(500);
+                return;
+            }
             if (results.length == 0){
                 console.log('No songs for user', uname);
                 res.json(results);
@@ -71,8 +78,12 @@ module.exports = {
         WHERE p._id = up.playlist_id \
         AND up.username = '" + uname +"';",
     function(error, results, fields){
-        if (error) throw error;
-        res.json(results);
+        if (error){
+            throw error;
+            res.sendStatus(500);
+        } else {
+            res.status(200).json(results);
+        }
     });
     },
 
@@ -90,8 +101,12 @@ module.exports = {
         FROM Songs s, Playlists p, PlaylistsSongs as ps \
         WHERE p._id in ' + in_clause +' AND ps.playlist_id = p._id AND ps.song_id = s._id;',
     function(error,result,fields){
-        if (error) throw error;
-        res.json(result);
+        if (error){
+            throw error;
+            res.sendStatus(500);
+            return;
+        }
+        res.status(200).json(result);
     }); 
     },
 
@@ -99,8 +114,12 @@ module.exports = {
         console.log('getting all songs');
 
         connection.query('select * from Songs;', function(error, result, fields){
-            if (error) throw error;
-            res.json(result);
+            if (error){
+                throw error;
+                res.sendStatus(500);
+                return;
+            }
+            res.status(200).json(result);
         });
     },
 
@@ -117,7 +136,6 @@ module.exports = {
         INSERT INTO PlaylistsSongs \
         VALUES ' + values + ' ;', function(e,r,f){
             if (e) throw e;
-            return r;
         });
     },
 
@@ -135,7 +153,6 @@ module.exports = {
         WHERE playlist_id = ' + playlist_id +' \
         AND song_id IN ' + in_clause + ' ;', function(e,r,f){
             if (e) throw e;
-            return r;
         });
     },
 
@@ -146,8 +163,13 @@ module.exports = {
         INSERT INTO UsersSongs \
         VALUES ("' + uname + '", ' + song_id + ') \
         ;', function(e,r,f){
-            if (e) throw e;
-            res.json(r);
+            if (e){
+                throw e;
+                res.sendStatus(500);
+                return;
+            } else {
+                res.sendStatus(200);
+            }
         });
     },
 
@@ -157,8 +179,13 @@ module.exports = {
         connection.query('\
         DELETE FROM UsersSongs \
         WHERE username = "' + uname + '" AND song_id =  ' + song_id + ' ;', function(e,r,f){
-            if (e) throw e;
-            res.json(r);
+            if (e){
+                throw e;
+                res.sendStatus(500);
+                return;
+            } else {
+                res.sendStatus(200);
+            }
         });
     },
 
@@ -170,7 +197,11 @@ module.exports = {
         connection.query('\
         INSERT INTO Playlists (name) \
         VALUES ("' + playlist_name + '");',function(e,r,f){
-            if (e) throw e;
+            if (e){
+                throw e;
+                res.sendStatus(500);
+                return;
+            }
 
             playlist_id = r.insertId;
             
@@ -180,8 +211,15 @@ module.exports = {
             connection.query(' \
             INSERT INTO UsersPlaylists \
             VALUES ("' + uname + '", ' + playlist_id + ');', function(e,r,f){
-                if (e) throw e;
-                res.json(r);
+                if (e){
+                    throw e;
+                    res.sendStatus(500);
+                    return;
+                } else {
+                    res.sendStatus(200);
+                }
+
+
             });
         });
         

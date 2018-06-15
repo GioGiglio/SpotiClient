@@ -75,7 +75,13 @@ function showMySongs(){
 
     xhttp.onreadystatechange = function() {
         if (xhttp.readyState == XMLHttpRequest.DONE) {
-            console.log('user songs received');
+            if (xhttp.status == 200){
+                console.log('User songs received');
+            }
+            else {
+                alert('Server errors getting user songs');
+                return;
+            }
 
             // delete current user_songs_ids;
             user_songs_ids = [];
@@ -136,7 +142,14 @@ function showAllSongs(){
 
     xhttp.onreadystatechange = function() {
         if (xhttp.readyState == XMLHttpRequest.DONE) {
-            console.log('all songs received');
+            if (xhttp.status == 200){
+                console.log('All songs received');
+            }
+            else {
+                alert('Server errors while getting all songs');
+                return;
+            }
+
             songs = parseSongs(JSON.parse(xhttp.responseText));
             songs.forEach(function(song){
                 appendTrack(song,'server');
@@ -179,7 +192,13 @@ function addToMySongs(song_id){
     xhttp.open('POST','/addToUserSongs', true);
     xhttp.onreadystatechange = function() {
         if (xhttp.readyState == XMLHttpRequest.DONE){
-            console.log(song_id,'added to user songs');
+            if (xhttp.status == 200){
+                console.log('Song added to user songs');
+            }
+            else {
+                alert('Server errors while adding song to user songs');
+                return;
+            }
         }
     }
     xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -206,7 +225,14 @@ function removeFromMySongs(song_id){
     xhttp.open('POST','/removeFromUserSongs', true);
     xhttp.onreadystatechange = function() {
         if (xhttp.readyState == XMLHttpRequest.DONE){
-            console.log(song_id,'removed from user songs');
+            if (xhttp.status == 200){
+                console.log('Song removed from user songs');
+            }
+            else {
+                alert('Server errors while removing song from user songs');
+                return;
+            }
+
             showMySongs();
         }
     }

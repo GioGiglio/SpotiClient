@@ -128,7 +128,14 @@ function showMyPlaylists(){
 
     xhttp.onreadystatechange = function() {
         if (xhttp.readyState == XMLHttpRequest.DONE) {
-            console.log('response received');
+            if (xhttp.status == 200){
+                console.log('Playlists received');
+            }
+            else {
+                alert('Server errors while getting playlists');
+                return;
+            }
+            
             playlists = parsePlaylists(JSON.parse(xhttp.responseText));
             playlists.forEach(function(playlist){
                 appendPlaylist(playlist);
@@ -162,7 +169,14 @@ function fetchPlaylistsSongs(ids){
 
     xhttp.onreadystatechange = function() {
         if (xhttp.readyState == XMLHttpRequest.DONE) {
-            console.log('Playlists Songs received');
+            if (xhttp.status == 200){
+                console.log('Playlists songs received');
+            }
+            else {
+                alert('Server errors while getting playlists songs');
+                return;
+            }
+
             var data = JSON.parse(xhttp.responseText);
             var playlist_ids = data.map(function(e){return e.playlist_id;});
 
@@ -238,8 +252,13 @@ function addPlaylist(playlist_name){
 
     xhttp.onreadystatechange = function() {
         if (xhttp.readyState == XMLHttpRequest.DONE) {
-            console.log('response received');
-            // TODO check for errors
+            if (xhttp.status == 200){
+                console.log('Playlist created');
+            }
+            else {
+                alert('Server errors while creating playlist');
+                return;
+            }
 
             // remove <html> for playlists
             $('#playlists > ul').empty();

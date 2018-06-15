@@ -92,12 +92,26 @@ app.post('/updatePlaylist', function(req,res){
 
     var r;
     if (to_add.length > 0){
-        r = query.addSongsToPlaylist(connection,playlist_id,to_add);
+        try{
+            query.addSongsToPlaylist(connection,playlist_id,to_add);
+        }
+        catch (err){
+            console.log(err.message);
+            res.sendStatus(500);
+            return;
+        }
     }
     if (to_remove.length > 0){
-        r = query.removeSongsFromPlaylist(connection, playlist_id, to_remove);
+        try{
+            query.removeSongsFromPlaylist(connection, playlist_id, to_remove);
+        }
+        catch (err){
+            console.log(err.message);
+            res.sendStatus(500);
+            return;
+        }
     }
-    res.json(r);
+    res.sendStatus(200);
 });
 
 app.post('/createPlaylist',function(req,res){
@@ -109,6 +123,6 @@ app.post('/createPlaylist',function(req,res){
 
 app.post('/deletePlaylist', function(req, res){
     var playlist_id = req.body.playlist_id;
-    
+
     query.deletePlaylist(res, connection, playlist_id);
 });
