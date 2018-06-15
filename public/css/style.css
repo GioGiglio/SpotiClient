@@ -42,6 +42,10 @@ li:hover {
     list-style-type: none;
     padding-left: 10px;
 }
+
+.track > div {
+    line-height: 19px;
+}
             
 .track > div > p {
     /* Track's title, artist and album */
@@ -133,6 +137,16 @@ li > div > .image:hover {
     margin-right: 10px;
 }
 
+#newPlaylistBtn {
+    /* CREATE NEW playlist button */
+    background-color: limegreen;
+    border: none;
+    padding: 5px;
+    border-radius: 10px;
+    color: white;
+    margin-left: 20px;
+    margin-bottom:10px;
+}
 
 .dropdown {
     position: relative;
@@ -185,7 +199,7 @@ li > div > .image:hover {
 }
 
 #tracks_list, #playlists {
-    margin-top: 60px;
+    margin-top: 70px;
 }
 
 #navbar a {
@@ -271,7 +285,7 @@ a#navbar_playlists {
     padding:0;
 }
 
-#editPlaylist button {
+#editPlaylist button, #createPlaylist button {
     /* DONE BUTTON */
     display: block;
     margin: 0 auto;
@@ -294,6 +308,20 @@ a#navbar_playlists {
     color: #000;
     text-decoration: none;
     cursor: pointer;
+}
+
+#createPlaylist > .modal-content > input {
+    padding: 5px;
+    border: none;
+    border-radius: 10px;
+    background-color: #008c00;
+    color: white;
+    margin-bottom: 20px;
+    margin-left: 10px;
+}
+
+#createPlaylist input::placeholder {
+    color: white;
 }
 
 

@@ -213,3 +213,34 @@ function playPlaylist (element){
     }
     console.log('playing queue',playing_queue);
 }
+
+/**
+ * Adds a new playlist for the current user
+ * @param playlist_name the name of the new playlist
+ */
+function addPlaylist(playlist_name){
+    console.log('creating playlist',playlist_name);
+
+    var xhttp = new XMLHttpRequest();
+    var data = {
+        username: 'GioGiglio',
+        playlist_name: playlist_name
+    };
+
+    xhttp.open('POST','/createPlaylist',true);
+
+    xhttp.onreadystatechange = function() {
+        if (xhttp.readyState == XMLHttpRequest.DONE) {
+            console.log('response received');
+            // TODO check for errors
+
+            // remove <html> for playlists
+            $('#playlists > ul').empty();
+            showMyPlaylists();
+            console.log('playlist',playlist_name,'created');
+        }
+    }
+    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhttp.send(JSON.stringify(data));
+
+}

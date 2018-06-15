@@ -99,3 +99,10 @@ app.post('/updatePlaylist', function(req,res){
     }
     res.json(r);
 });
+
+app.post('/createPlaylist',function(req,res){
+    var uname = req.body.username;
+    var playlist_name = req.body.playlist_name;
+
+    query.newPlaylist(res,connection,uname,playlist_name);
+})

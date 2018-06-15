@@ -207,6 +207,29 @@ function updatePlaylistSongs(playlist){
     editPlaylistClose();
 }
 
+function createPlaylistModal(){
+    // Show modal
+    $('#createPlaylist').show();
+
+    // Create button onclick listener
+    $('#createPlaylist button').unbind('click').click(function(){
+        // Get playlist name from <input>
+        var playlist_name = $('#createPlaylist input').val();
+
+        addPlaylist(playlist_name);
+        createPlaylistClose();
+    });
+
+}
+
+function createPlaylistClose(){
+    // Hide modal
+    $('#createPlaylist').hide();
+
+    // Clear input field text
+    $('#createPlaylist input').val('');
+}
+
 /**
  * Get a song object by the id
  * @param {*} id The id of the song.

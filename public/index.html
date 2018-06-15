@@ -35,6 +35,7 @@
                 
                 <aside id="playlists" class="col-3">
                     <span id="playlists_header">PLAYLIST</span>
+                    <button id="newPlaylistBtn" onclick="createPlaylistModal()">Create new</button>
                     <ul>
                         <!-- PLAYLISTS -->
                         
@@ -69,6 +70,19 @@
                     <button>Done</button>
                 </div>
             </div>
+
+            <!-- CreatePlaylist Modal-->
+            <div id="createPlaylist" class="modal">
+                <div class="modal-content">
+                    <span class="close" onclick="createPlaylistClose()">&times;</span>
+                    <h3>Create new playlist</h3>
+                    Playlist name:
+                    <input type="text" name="playlist_name" placeholder="Your playlist name...">
+
+                    <button>Create</button>
+                </div>
+            </div>
+
 
 
             </nav>

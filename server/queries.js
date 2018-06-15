@@ -160,6 +160,30 @@ module.exports = {
             if (e) throw e;
             res.json(r);
         });
-    }
+    },
 
+    newPlaylist: function(res,connection,uname,playlist_name){
+        // first create the playlist
+        console.log('creating playlist',playlist_name);
+        var playlist_id;
+
+        connection.query('\
+        INSERT INTO Playlists (name) \
+        VALUES ("' + playlist_name + '");',function(e,r,f){
+            if (e) throw e;
+
+            playlist_id = r.insertId;
+            
+            // now associate the playlist to the user
+            console.log('associating',playlist_name,'to',uname);
+
+            connection.query(' \
+            INSERT INTO UsersPlaylists \
+            VALUES ("' + uname + '", ' + playlist_id + ');', function(e,r,f){
+                if (e) throw e;
+                res.json(r);
+            });
+        });
+        
+    }
 };
