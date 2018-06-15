@@ -62,8 +62,8 @@ function removeSongs(){
  */
 function showMySongs(){
     // Switch active <a> element
-    $('#navbar a:first-child').addClass('active');
-    $('#navbar a:nth-child(2)').removeClass('active');
+    $('#navbar a:nth-child(2)').addClass('active');
+    $('#navbar a:nth-child(3)').removeClass('active');
 
     // Get users songs
     var xhttp = new XMLHttpRequest();
@@ -129,8 +129,8 @@ function showMySongs(){
 
 function showAllSongs(){
     // Switch active <a> element
-    $('#navbar a:first-child').removeClass('active');
-    $('#navbar a:nth-child(2)').addClass('active');
+    $('#navbar a:nth-child(2)').removeClass('active');
+    $('#navbar a:nth-child(3)').addClass('active');
 
     // first remove existing songs
     removeSongs();

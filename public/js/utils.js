@@ -341,6 +341,13 @@ function initVars(){
             console.log('PLAYER: Nothing to play');
         }
     });
+
+    // width based behavior
+    $(document).load($(window).bind("resize", checkPosition));
+}
+
+function checkPosition(){
+    
 }
 
 /**
@@ -405,5 +412,24 @@ function deletePlaylistAlert(element){
         // remove <html> for playlists
         $('#playlists > ul').empty();
         showMyPlaylists();
+    }
+}
+
+/**
+ * Shows or hides the top menu in the mobile view
+ */
+function menuHideShow(){
+
+
+
+    var visible = $('#navbar a:nth-child(2)').is(':visible');
+
+    if (visible){
+        // hide
+        $('#navbar a:not(:first-child)').hide();
+    }
+    else {
+        // show
+        $('#navbar a:not(:first-child)').show();
     }
 }

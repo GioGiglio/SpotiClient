@@ -20,8 +20,9 @@
             <nav>
                 <section id="navbar" class="col-12">
                     <div>
-                        <a class="active" onclick="showMySongs()">MY SONGS</a>
-                        <a onclick="showAllSongs()">ALL SONGS</a>
+                        <a id="menu_hide_show" onclick="menuHideShow()" >Menu &dArr;</a>
+                        <a class="active" onclick="showMySongs(); menuHideShow()">MY SONGS</a>
+                        <a onclick="showAllSongs(); menuHideShow()">ALL SONGS</a>
                         <a id="navbar_playlists" onclick="showPlaylists()">PLAYLISTS</a>
                         <input id="search_input" type="text" onkeyup="search_filter()" >
                     </div>
@@ -40,6 +41,17 @@
                         <!-- PLAYLISTS -->
                         
                     </ul>
+
+                    <div>
+                        <!-- FRIEND SECTION -->
+                        <ul>
+                            <li>Friend 1</li>
+                            <li>Friend 2</li>
+                            <li>Friend 3</li>
+                            <li>Friend 4</li>
+                        </ul>
+
+                    </div>
                 </aside>
             </div>
 

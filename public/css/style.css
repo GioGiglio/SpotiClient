@@ -234,6 +234,9 @@ a#navbar_playlists {
     display:none;
 }
 
+#navbar #menu_hide_show {
+    display:none;
+}
 
 /* MODAL */
 .modal {
@@ -360,11 +363,15 @@ a#navbar_playlists {
     }
 
     #tracks_list {
-        margin-top: 180px;
+        margin-top: 100px;
     }
 
     #navbar_playlists {
         display:inline;
+    }
+
+    #navbar #menu_hide_show {
+        display:block;
     }
 
 }
