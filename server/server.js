@@ -71,25 +71,25 @@ app.post('/register',function(req, res){
 });
 
 app.post('/userSongs',function(req, res){
-    query.songsForUser(res, connection, req.body.uname);
+    query.songsForUser(res, connection, parseUsername(req));
 });
 
 app.post('/addToUserSongs',function(req, res){
-    var uname = req.body.username;
+    var uname = parseUsername(req);
     var song_id = req.body.song_id;
 
     query.addUserSong(res, connection,uname, song_id);
 });
 
 app.post('/removeFromUserSongs',function(req, res){
-    var uname = req.body.username;
+    var uname = parseUsername(req);
     var song_id = req.body.song_id;
 
     query.removeUserSong(res, connection,uname, song_id);
 });
 
 app.post('/userPlaylists',function(req, res){
-    query.playlistsForUser(res, connection, req.body.uname);
+    query.playlistsForUser(res, connection, parseUsername(req));
 });
 
 // Gets a the ids of user's playlists.
@@ -132,7 +132,7 @@ app.post('/updatePlaylist', function(req,res){
 });
 
 app.post('/createPlaylist',function(req,res){
-    var uname = req.body.username;
+    var uname = parseUsername(req);
     var playlist_name = req.body.playlist_name;
 
     query.newPlaylist(res,connection,uname,playlist_name);
@@ -144,10 +144,6 @@ app.post('/deletePlaylist', function(req, res){
     query.deletePlaylist(res, connection, playlist_id);
 });
 
-app.get('/testCookie',function(req, res){
-    console.log('testCookie');
-    console.log(parseUsername(req));
-});
 
 /**
  * Gets the username from the cookie of a request

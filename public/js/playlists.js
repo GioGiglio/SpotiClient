@@ -122,9 +122,9 @@ function appendSongToPlaylist(song,playlist){
 }
 
 function showMyPlaylists(){
-    var data = {uname: 'GioGiglio'};
     var xhttp = new XMLHttpRequest();
     xhttp.open('POST','/userPlaylists',true);
+    xhttp.withCredentials = true;
 
     xhttp.onreadystatechange = function() {
         if (xhttp.readyState == XMLHttpRequest.DONE) {
@@ -147,7 +147,7 @@ function showMyPlaylists(){
     }
 
     xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhttp.send(JSON.stringify(data));
+    xhttp.send(null);
 }
 
 function parsePlaylists(response){
@@ -244,11 +244,11 @@ function addPlaylist(playlist_name){
 
     var xhttp = new XMLHttpRequest();
     var data = {
-        username: 'GioGiglio',
         playlist_name: playlist_name
     };
 
     xhttp.open('POST','/createPlaylist',true);
+    xhttp.withCredentials = true;
 
     xhttp.onreadystatechange = function() {
         if (xhttp.readyState == XMLHttpRequest.DONE) {

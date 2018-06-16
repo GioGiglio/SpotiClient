@@ -68,10 +68,8 @@ function showMySongs(){
     // Get users songs
     var xhttp = new XMLHttpRequest();
 
-    // get current user username
-    var data = {uname: 'GioGiglio'};
-
     xhttp.open('POST','/userSongs',true);
+    xhttp.withCredentials = true;
 
     xhttp.onreadystatechange = function() {
         if (xhttp.readyState == XMLHttpRequest.DONE) {
@@ -117,7 +115,7 @@ function showMySongs(){
     }
 
     xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhttp.send(JSON.stringify(data));
+    xhttp.send(null);
 
 
     // remove existing songs
@@ -184,12 +182,13 @@ function addToMySongs(song_id){
     // Add to UserSongs Server side and DB
 
     var data = {
-        username: 'GioGiglio',
         song_id: song_id
     };
 
     var xhttp = new XMLHttpRequest();
     xhttp.open('POST','/addToUserSongs', true);
+    xhttp.withCredentials = true;
+
     xhttp.onreadystatechange = function() {
         if (xhttp.readyState == XMLHttpRequest.DONE){
             if (xhttp.status == 200){
@@ -217,12 +216,13 @@ function removeFromMySongs(song_id){
     // Remove from UserSongs Server side and DB
 
     var data = {
-        username: 'GioGiglio',
         song_id: song_id
     };
 
     var xhttp = new XMLHttpRequest();
     xhttp.open('POST','/removeFromUserSongs', true);
+    xhttp.withCredentials = true;
+
     xhttp.onreadystatechange = function() {
         if (xhttp.readyState == XMLHttpRequest.DONE){
             if (xhttp.status == 200){
