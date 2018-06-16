@@ -241,9 +241,7 @@ function playPlaylist (element){
         playing_queue.unshift(playlist.songs[i]);
     }
 
-    if (playlist.songs.length > 1){
-        playing_from_playlist = true;
-    }
+    playing_from_playlist = true;
 
     if (playlist.songs.length > 0){
         play(playing_queue[0].id);

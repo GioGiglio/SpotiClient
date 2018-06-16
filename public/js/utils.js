@@ -416,6 +416,7 @@ function initVars(){
             if (playing_from_playlist) playing_queue.shift();
         } else {
             console.log('- Player: Nothing to play');
+            playing_queue = [];
             if (playing_from_playlist){
                 playing_from_playlist = false;
             }
