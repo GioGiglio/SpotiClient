@@ -1,3 +1,6 @@
+/**
+ * Bootstrapping
+ */
 function init(){
     initVars();
     
@@ -17,7 +20,11 @@ function init(){
         return hash;
     }
 }
-// TODO consider moving this to playlists.js
+
+/**
+ * Shows the AddToPlaylist Modal
+ * @param {*} element the clicked html element
+ */
 function addToPlaylistModal(element){
     // get clicked song
     var selected_song_id = $(element).parent().parent().attr('value');
@@ -95,6 +102,9 @@ function addToPlaylistModal(element){
     });
 }
 
+/**
+ * Closes the AddToPlaylist modal
+ */
 function closeModal(){
     $('#addToPlaylistModal').hide();
 
@@ -103,6 +113,10 @@ function closeModal(){
 
 }
 
+/**
+ * Shows the editPlaylist Modal
+ * @param {*} element the clicked html element
+ */
 function editPlaylistModal(element){
     // TODO get clicked playlist
     var playlist_id = $(element).parent().parent().attr('value');
@@ -150,11 +164,19 @@ function editPlaylistModal(element){
 
 }
 
+/**
+ * Closes the editPlaylist Modal
+ */
 function editPlaylistClose(){
     $('#editPlaylist').hide();
     $('.modal-content > ul').empty();
 }
 
+/**
+ * Send informations about the new playlist content to server
+ * when playlist's songs get modified
+ * @param {*} playlist the playlist to modify
+ */
 function updatePlaylistSongs(playlist){
     // get Checked and Unchecked songs
     var checked_ids = [];
@@ -218,6 +240,9 @@ function updatePlaylistSongs(playlist){
     editPlaylistClose();
 }
 
+/**
+ * Shows the createPlaylist Modal
+ */
 function createPlaylistModal(){
     // Show modal
     $('#createPlaylist').show();
@@ -233,6 +258,9 @@ function createPlaylistModal(){
 
 }
 
+/**
+ * Closes the createPlaylist Modal
+ */
 function createPlaylistClose(){
     // Hide modal
     $('#createPlaylist').hide();
@@ -318,6 +346,9 @@ function play(id){
     $(player_image).css('background-image','url('+current_song.imageUrl+')');
 }
 
+/**
+ * Inits some global variables and click listeners
+ */
 function initVars(){
     player = $('#music_player')[0];
     player_title = $('#player_title')[0];
@@ -350,6 +381,9 @@ function checkPosition(){
     
 }
 
+/**
+ * Logs the current user out the session
+ */
 function logout(){
     document.cookie = 'username=;';
     window.location.href="/login.html";
@@ -380,12 +414,9 @@ function search_filter(){
 }
 
 /**
- * @returns The username associated with the cookie.
+ * Shows an alert to confirm to delete a playlist
+ * @param {*} element the clicked html element
  */
-function parseCookie(){
-    return document.cookie.split(':')[1];
-}
-
 function deletePlaylistAlert(element){
     var playlist_id = $(element).parent().parent().attr('value');
     var playlist = playlistFromId(playlist_id);
@@ -441,6 +472,9 @@ function menuHideShow(){
     }
 }
 
+/**
+ * Show the friendsModal
+ */
 function friendsModalShow(){
     // show modal
     $('#friendsModal').show();
@@ -474,6 +508,9 @@ function friendsModalShow(){
     xhttp.send(null);
 }
 
+/**
+ * Closes the friendsModal
+ */
 function friendsModalClose(){
     // hide modal
     $('#friendsModal').hide();
@@ -485,6 +522,9 @@ function friendsModalClose(){
     $('#friendsList').empty();
 }
 
+/**
+ * Sends a request to the server for adding a user as friend.
+ */
 function addFriend(){
     // get username from input field
     var username = $('#friendsModal input').val();
