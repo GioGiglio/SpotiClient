@@ -44,12 +44,12 @@ app.get('/', function(req, res) {
 });
 
 app.get('/index.html', function(req, res){
-    console.log('index.html required');
-    console.log(req.headers.cookie);
     if (parseUsername(req) !== undefined){
         res.sendFile(path.resolve('public/index.html'));
     } else {
         console.log('invalid cookie');
+        // redirect to error page
+        res.redirect('https://www.youtube.com/watch?v=Sagg08DrO5U');
     }
 });
 
@@ -151,7 +151,9 @@ app.post('/deletePlaylist', function(req, res){
  * @returns the username value contained in the cookie
  */
 function parseUsername(req){
-    if (req.headers.cookie === undefined){
+    var cookie = req.headers.cookie;
+
+    if (cookie === undefined || cookie === 'username='){
         return undefined;
     }
     return req.headers.cookie.split('=')[1];
