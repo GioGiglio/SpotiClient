@@ -350,6 +350,11 @@ function checkPosition(){
     
 }
 
+function logout(){
+    document.cookie = 'username=;';
+    window.location.href="/login.html";
+}
+
 /**
  * Filter tracks_list according to user's input.
  */

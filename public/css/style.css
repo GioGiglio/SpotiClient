@@ -238,6 +238,11 @@ a#navbar_playlists {
     display:none;
 }
 
+#logoutBtn {
+    float: right;
+    margin-top: 15px;
+}
+
 /* MODAL */
 .modal {
     display: none;
