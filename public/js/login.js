@@ -52,12 +52,11 @@ function login(){
  */
 function logupCheck(){
     var form = $('#logup_form')[0];
-    var retval;
 
     // Check password
-    retval = form.psw1.value === form.psw2.value;
-    if (! retval){
+    if (form.psw1.value !== form.psw2.value){
         alert('Passwords do not match!');
+        return false;
     }
-    return retval;
+    return true;
 }

@@ -163,6 +163,13 @@ function parsePlaylists(response){
  * @param {Array} ids The array of ids of the playlists.
  */
 function fetchPlaylistsSongs(ids){
+
+    // if ids is empty, don't send request
+    if (ids.length == 0){
+        console.log('No need to require playlists songs');
+        return;
+    }
+
     var data = JSON.stringify(ids);
     var xhttp = new XMLHttpRequest();
     xhttp.open('POST','/playlistsSongs',true);

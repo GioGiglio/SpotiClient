@@ -47,7 +47,9 @@ module.exports = {
                     res.end("An error occurred");
                     return;
                 }
-                res.redirect('/');
+                // set cookie for user
+                res.cookie('username',uname);
+                res.redirect('index.html');
             });
 
     },
