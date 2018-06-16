@@ -292,14 +292,15 @@ function playlistFromId(id){
     @param id: the id of the song in the tracks list.
 */
 function play(id){
-    // TODO: provide track name, and check if the track is already cached;
-    // if cache gets filled, remove less played song
-    
     console.log('play() called for song:',id);
+
+    var to_play = songFromId(id);
 
     if (player.currentSrc === ''){
         // Initial state
-        current_song = songFromId(id);
+        playing_queue.unshift(to_play);
+        populateQueue();
+        current_song = to_play;
 
         player.src= current_song.path;
         player.play();
@@ -312,14 +313,20 @@ function play(id){
     }
     
     if (current_song === undefined){
-        current_song = songFromId(id);
+        current_song = to_play;
     }
     
     if (player.paused){
         // player is paused -> play
-        if (current_song !== songFromId(id)){
+        if (current_song.id !== to_play.id){
             // User clicked a different song from the current one
-            current_song = songFromId(id);
+
+            //remove current song from queue and add the new one
+            playing_queue.shift();
+            playing_queue.unshift(to_play);
+            populateQueue();
+            current_song = to_play;
+            
             
             // update audio source
             player.src = current_song.path;
@@ -329,8 +336,14 @@ function play(id){
     } else {
         // player is playing
 
-        if (current_song !== songFromId(id)){
-            current_song = songFromId(id);
+        if (current_song.id !== to_play.id){
+
+            //remove current song from queue and add the new one
+            playing_queue.shift();
+            playing_queue.unshift(to_play);
+            populateQueue();
+
+            current_song = to_play;
             
             // Different song -> play
             player.src = current_song.path;
@@ -344,6 +357,23 @@ function play(id){
     // update player song title and image
     $(player_title).text(current_song.title);
     $(player_image).css('background-image','url('+current_song.imageUrl+')');
+}
+
+/**
+ * Adds next songs to the playing_queue
+ */
+function populateQueue(){
+    // first of all, empty the playling_queue except for the first element
+    playing_queue.length = 1;
+
+    // for each track
+    $('.track').each(function() {
+        var curr_id = Number($(this).attr('value'));
+        
+        if (curr_id > playing_queue[0].id){
+            playing_queue.push(songFromId(curr_id));
+        }
+    });
 }
 
 /**
