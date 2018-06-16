@@ -124,7 +124,7 @@ function editPlaylistModal(element){
 
     // Show modal and playlist's name
     $('#editPlaylist').show();
-    $('.modal-content > h3').text('Select "' + selected_playlist.name + '" songs:');
+    $('#editPlaylist .modal-content > h3').text('Select "' + selected_playlist.name + '" songs:');
 
     console.log('selected playlist',selected_playlist);
 
