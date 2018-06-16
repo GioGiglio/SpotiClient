@@ -294,6 +294,23 @@ function playlistFromId(id){
 function play(id){
     console.log('play() called for song:',id);
 
+    if (playing_from_playlist){
+        // songs are preloaded in playing_queue
+
+        var playlist_song = songFromId(id); 
+        player.src = playlist_song.path;
+        player.play();
+
+        // update player song title and image
+        $(player_title).text(playlist_song.title);
+        $(player_image).css('background-image','url('+playlist_song.imageUrl+')');
+        
+        // remove current song from playing queue
+        //playing_queue.shift();
+
+        return;
+    }
+
     var to_play = songFromId(id);
 
     if (player.currentSrc === ''){
@@ -384,6 +401,7 @@ function initVars(){
     player_title = $('#player_title')[0];
     player_image = $('#player_image')[0];
     current_song = undefined;
+    playing_from_playlist = false;
 
     songs=[];
     playing_queue = [];
@@ -395,17 +413,14 @@ function initVars(){
         if (playing_queue.length > 1){
             console.log('- Player: Playing next song');
             play(playing_queue[1].id);
+            if (playing_from_playlist) playing_queue.shift();
         } else {
             console.log('- Player: Nothing to play');
+            if (playing_from_playlist){
+                playing_from_playlist = false;
+            }
         }
     });
-
-    // width based behavior
-    //$(document).load($(window).bind("resize", checkPosition));
-}
-
-function checkPosition(){
-    
 }
 
 /**
