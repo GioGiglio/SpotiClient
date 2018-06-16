@@ -241,6 +241,7 @@ a#navbar_playlists {
 #logoutBtn {
     float: right;
     margin-top: 15px;
+    text-decoration: underline;
 }
 
 /* MODAL */
@@ -296,7 +297,9 @@ a#navbar_playlists {
     padding:0;
 }
 
-#editPlaylist button, #createPlaylist button {
+#editPlaylist button, 
+#createPlaylist button,
+#friendsModal button {
     /* DONE BUTTON */
     display: block;
     margin: 0 auto;
@@ -305,6 +308,32 @@ a#navbar_playlists {
     border-radius: 15px;
     background: limegreen;
     color: white;
+}
+
+#friendsModal #addFriendButton {
+    display: inline;
+    padding: 5px 10px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+
+ul#friendsList {
+    /* FRIENDS LIST */
+    display:block;
+}
+
+#friendsModal input {
+    padding: 5px;
+    border: none;
+    border-radius: 10px;
+    background-color: #008c00;
+    color: white;
+    margin-bottom: 20px;
+    margin-left: 10px;
+}
+
+#friendsModal input::placeholder {
+    color:white;
 }
 
 /* Close Button */

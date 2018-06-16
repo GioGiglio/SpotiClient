@@ -144,6 +144,23 @@ app.post('/deletePlaylist', function(req, res){
     query.deletePlaylist(res, connection, playlist_id);
 });
 
+app.post('/updateListeningSong', function(req, res){
+    var uname = parseUsername(req);
+    var song_id = req.body.song_id;
+
+    query.updateListening(res, connection, uname, song_id);
+});
+
+app.get('/friendsListeningSongs', function(req, res){
+    query.friendsListening(res, connection, parseUsername(req));
+});
+
+app.post('/addFriend', function(req, res){
+    var uname = parseUsername(req);
+    var friend = req.body.friend;
+    query.addFriend(res, connection, uname, friend);
+});
+
 
 /**
  * Gets the username from the cookie of a request

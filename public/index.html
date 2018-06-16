@@ -24,6 +24,7 @@
                         <a class="active" onclick="showMySongs(); menuHideShow()">MY SONGS</a>
                         <a onclick="showAllSongs(); menuHideShow()">ALL SONGS</a>
                         <a id="navbar_playlists" onclick="showPlaylists()">PLAYLISTS</a>
+                        <a id="navbar_friends" onclick="friendsModalShow()">FRIENDS</a>
                         <input id="search_input" type="text" onkeyup="search_filter()">
                         <a id="logoutBtn" onclick="logout()">Log out</a>
                     </div>
@@ -84,6 +85,21 @@
                     <input type="text" name="playlist_name" placeholder="Your playlist name...">
 
                     <button>Create</button>
+                </div>
+            </div>
+
+            <!-- Friends Modal -->
+            <div id="friendsModal" class="modal">
+                <div class="modal-content">
+                    <span class="close" onclick="friendsModalClose()">&times;</span>
+                    <h3>Friends</h3>
+                    <label>Add friend: </label>
+                    <input type="text" placeholder="Insert friend's username" maxlength="20">
+                    <button id="addFriendButton" onclick="addFriend()">Add</button>
+
+                    <ul id="friendsList">
+                        <!-- Following friends list-->   
+                    </ul>
                 </div>
             </div>
 

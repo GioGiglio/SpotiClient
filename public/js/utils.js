@@ -25,7 +25,7 @@ function addToPlaylistModal(element){
 
     // show modal and song title
     $('#addToPlaylistModal').show();
-    $('.modal-content > h3').text('Add "' + selected_song.title + '" to:');
+    $('#addToPlaylistModal .modal-content > h3').text('Add "' + selected_song.title + '" to:');
 
     // show playlists
     var ul = $('.modal-content > ul')[0];
@@ -424,8 +424,10 @@ function deletePlaylistAlert(element){
  * Shows or hides the top menu in the mobile view
  */
 function menuHideShow(){
-
-
+    // do not hide in desktop view
+    if ( ! $('#navbar_playlists').is(':visible')){
+        return;
+    }
 
     var visible = $('#navbar a:nth-child(2)').is(':visible');
 
@@ -437,4 +439,93 @@ function menuHideShow(){
         // show
         $('#navbar a:not(:first-child)').show();
     }
+}
+
+function friendsModalShow(){
+    // show modal
+    $('#friendsModal').show();
+
+    // get friends listening songs
+    var xhttp = new XMLHttpRequest();
+    xhttp.open('GET','/friendsListeningSongs',true);
+    xhttp.withCredentials = true;
+
+    xhttp.onreadystatechange = function() {
+        if (xhttp.readyState == XMLHttpRequest.DONE) {
+            if (xhttp.status == 200){
+                console.log('friends listening songs received');
+                var result = JSON.parse(xhttp.responseText);
+
+                // Show result
+                result.forEach((x) => {
+                    appendFriendListening(x.username, Number(x.song_id));
+                });
+
+            }
+            else if (xhttp.status == 204){
+                console.log(xhttp.statusText);
+            }
+            else{
+                alert('Server errors while getting listening songs for friends');
+            }
+        }
+    }
+    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhttp.send(null);
+}
+
+function friendsModalClose(){
+    // hide modal
+    $('#friendsModal').hide();
+
+    // clear input field
+    $('#friendsModal input').val('');
+
+    // delete friends <li>s
+    $('#friendsList').empty();
+}
+
+function addFriend(){
+    // get username from input field
+    var username = $('#friendsModal input').val();
+    var data = {
+        friend: username
+    };
+    
+    var xhttp = new XMLHttpRequest();
+    xhttp.open('POST','/addFriend',true);
+    xhttp.withCredentials = true;
+
+    xhttp.onreadystatechange = function() {
+        if (xhttp.readyState == XMLHttpRequest.DONE) {
+            if (xhttp.status == 200){
+                console.log('friend added');
+            }
+            else if (xhttp.status == 400){
+                alert(xhttp.statusText);
+            }
+            else {
+                alert('Server errors while adding friend');
+            }
+        }
+    }
+
+    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhttp.send(JSON.stringify(data));
+}
+
+/**
+ * Appends html elements representing a friend listening to a song
+ * @param {String} username 
+ * @param {Number} song_id 
+ */
+function appendFriendListening(username, song_id){
+    if (song_id == -1){
+        // user isn't listening to any song
+        return;
+    }
+    var ul = $('#friendsModal ul')[0];
+    var li = document.createElement('li');
+    $(li).text(username + ' is listening to '+ songFromId(song_id).title);
+    ul.appendChild(li);
 }

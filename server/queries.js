@@ -254,5 +254,103 @@ module.exports = {
                 }
             });
         });
+    },
+
+    updateListening: function(res, connection, uname, song_id){
+        console.log('updating listening song for user',uname);
+
+        connection.query('\
+        UPDATE TABLE UsersListening \
+        SET song_id = ' + song_id + ' \
+        WHERE username = "' + uname +'" ;', function(e,r,f){
+            if (e){
+                throw e;
+                res.sendStatus(500);
+            } else {
+                res.sendStatus(200);
+            }
+        });
+    },
+
+    friendsListening: function(res, connection, uname){
+        console.log('getting friends listening songs for user', uname);
+
+        // first get following friends list
+        connection.query(' \
+        SELECT following FROM Friends \
+        WHERE username = "' + uname +'" ;', function(e,r,f){
+            if (e){
+                throw e;
+                res.sendStatus(500);
+                return;
+            }
+
+            if (r.length == 0){
+                // No friends for user
+                res.statusMessage = 'No friends for user ' + uname;
+                res.status(204).end();
+                return;
+            }
+            
+            // parse result (following friends)
+            var friends = [];
+            r.forEach( (x) => {
+                friends.push(x.following);
+            });
+
+            var in_clause = '';
+            for(let i=0; i< friends.length; i++){
+                in_clause= in_clause + '"' +friends[i] + '",';
+            }
+            in_clause = '(' + in_clause.slice(0, -1) + ')';
+
+            // get listening song for friends
+            connection.query('\
+            SELECT * FROM UsersListening \
+            WHERE username in '+ in_clause +' ;', function(e,r,f){
+                if (e){
+                    throw e;
+                    res.sendStatus(500);
+                } else {
+                    res.status(200).json(r);
+                }
+            });
+        });
+
+    },
+
+    addFriend: function(res, connection, uname, friend){
+        console.log('adding friend',friend, 'for user', uname);
+
+        // first check if friends exists
+        connection.query('\
+        SELECT * FROM Users \
+        WHERE username = "' + friend + '" ;', function(e,r,f){
+            if (e){
+                throw e;
+                res.sendStatus(500);
+                return;
+            }
+
+            if (r[0] === undefined){
+                // No such user
+                res.statusMessage = 'User ' + friend + ' does not exist'
+                res.status(400).end();
+                return;
+            }
+
+            // friend exists, add entry to Friends
+            connection.query('\
+            INSERT INTO Friends \
+            VALUES ("' + uname +'", "' + friend + '");', function(e,r,f){
+                if (e){
+                    throw e;
+                    res.sendStatus(500);
+                    return;
+                }
+
+                res.sendStatus(200);
+            });
+        });
     }
 };
