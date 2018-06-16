@@ -422,6 +422,46 @@ function initVars(){
             }
         }
     });
+
+    // Media queries
+    $(window).on('resize', function() {
+        var win = $(this);
+        if (win.width() <= 768) {
+            // track list -> full width
+            $('#tracks_list').removeClass('col-9').addClass('col-12');
+        }
+    });
+}
+
+/**
+ * Show PlaylistsList
+ * Called only in mobile view
+ */
+function showPlaylists(){
+    // hide tracksList
+    $('#tracks_list').removeClass('col-9').hide();
+
+    // show playlists
+    $('#playlists').removeClass('col-3').addClass('col-12')
+    .css('margin-left','10px').css('margin-top','120px')
+    .show();
+
+    menuHideShow();
+}
+
+/**
+ * Hides playlists
+ * Called only in mobile view
+ */
+function hidePlaylists(){
+    // hides playlists
+    $('#playlists').removeClass('col-12').addClass('col-3').hide();
+    //.css('margin-left','10px').css('margin-top','120px')
+
+    // show tracksList
+    $('#tracks_list').addClass('col-9').show();
+
+    menuHideShow();
 }
 
 /**
@@ -499,7 +539,7 @@ function deletePlaylistAlert(element){
  */
 function menuHideShow(){
     // do not hide in desktop view
-    if ( ! $('#navbar_playlists').is(':visible')){
+    if ( ! $('#menu_hide_show').is(':visible')){
         return;
     }
 

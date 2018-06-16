@@ -1,1 +1,1 @@
-- Playing queue
+- Playlists in mobile view
