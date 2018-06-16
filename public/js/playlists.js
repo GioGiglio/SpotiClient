@@ -245,9 +245,10 @@ function playPlaylist (element){
         playing_from_playlist = true;
     }
 
-    play(playing_queue[0].id);
-    console.log(playing_queue);
-    console.log('Playing from playlist');
+    if (playlist.songs.length > 0){
+        play(playing_queue[0].id);
+        console.log('Playing from playlist');
+    }
 }
 
 /**
