@@ -343,7 +343,7 @@ function initVars(){
     });
 
     // width based behavior
-    $(document).load($(window).bind("resize", checkPosition));
+    //$(document).load($(window).bind("resize", checkPosition));
 }
 
 function checkPosition(){

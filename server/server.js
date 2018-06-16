@@ -17,8 +17,8 @@ var connection = mysql.createConnection({
 // Configuration
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-
 app.use(express.json());
+
 app.listen(8080, () => console.log('App listening on port 8080!'));
 
 // connect to database
@@ -26,18 +26,35 @@ connection.connect(function(error){
 	if (error) throw new Error('MYSQL: Error while connecting');
 });
 
-// serve static files
-app.use(express.static('public'));
-
 // Routes
 
 /* serve main page */
 app.get('/', function(req, res) {
-    /* if user is already logged -> public/index.html
-    else -> public/login.html */
-    res.sendFile(path.resolve('public/index.html'));
+
+    // check cookie
+    if (parseUsername(req) === undefined){
+        // user not logged
+        res.sendFile(path.resolve('public/login.html'));
+        console.log('User not logged, redirecting to login.html');
+    } else {
+        // user logged
+        res.sendFile(path.resolve('public/index.html'));
+        console.log('User logged, redirecting to main page');
+    }
 });
 
+app.get('/index.html', function(req, res){
+    console.log('index.html required');
+    console.log(req.headers.cookie);
+    if (parseUsername(req) !== undefined){
+        res.sendFile(path.resolve('public/index.html'));
+    } else {
+        console.log('invalid cookie');
+    }
+});
+
+// serve static files
+app.use(express.static('public'));
 
 /* Login form */
 app.post('/login', function(req, res){
@@ -126,3 +143,20 @@ app.post('/deletePlaylist', function(req, res){
 
     query.deletePlaylist(res, connection, playlist_id);
 });
+
+app.get('/testCookie',function(req, res){
+    console.log('testCookie');
+    console.log(parseUsername(req));
+});
+
+/**
+ * Gets the username from the cookie of a request
+ * @param {String} cookie the request
+ * @returns the username value contained in the cookie
+ */
+function parseUsername(req){
+    if (req.headers.cookie === undefined){
+        return undefined;
+    }
+    return req.headers.cookie.split('=')[1];
+}

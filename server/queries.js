@@ -27,7 +27,9 @@ module.exports = {
                 // check if result is valid
                 if (results[0] !== undefined) {
                     // Access granted, redirect to /
-                    res.redirect('/');
+                    // first set cookie
+                    res.cookie('username',uname);
+                    res.redirect('index.html');
                 }
                 else {
                     // Access denied, redirect to login.html
