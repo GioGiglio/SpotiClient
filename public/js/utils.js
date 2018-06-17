@@ -430,6 +430,18 @@ function initVars(){
         if (win.width() <= 768) {
             // track list -> full width
             $('#tracks_list').removeClass('col-9').addClass('col-12');
+
+            // audio player -> full width
+            $('#music_player').removeClass('col-8').addClass('col-12');
+        }
+        else {
+            // back to default view
+
+            // track list -> reduced width
+            $('#tracks_list').removeClass('col-12').addClass('col-9');
+
+            // audio player -> reduced width
+            $('#music_player').removeClass('col-12').addClass('col-8');
         }
     });
 }
@@ -441,6 +453,13 @@ function updateListeningSong(song_id){}
  * Called only in mobile view
  */
 function showPlaylists(){
+
+    // if playlists are already showing, hide them
+    if ($('#playlists').is(':visible')){
+        hidePlaylists();
+        return;
+    }
+
     // hide tracksList
     $('#tracks_list').removeClass('col-9').hide();
 
@@ -450,6 +469,7 @@ function showPlaylists(){
     .show();
 
     menuHideShow();
+    alert('Click again PLAYLISTS to hide them');
 }
 
 /**
