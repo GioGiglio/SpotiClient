@@ -47,6 +47,19 @@ module.exports = {
                     res.end("An error occurred");
                     return;
                 }
+
+                // insert user in UsersListening table
+
+                connection.query('\
+                INSERT INTO UsersListening \
+                VALUES ("' + uname +'", -1) ;', function(e,r,f){
+                    if (e){
+                        throw (e);
+                        res.sendStatus(500);
+                        return;
+                    }
+                });
+
                 // set cookie for user
                 res.cookie('username',uname);
                 res.redirect('index.html');
@@ -318,7 +331,7 @@ module.exports = {
 
             // get listening song for friends
             connection.query('\
-            SELECT * FROM UsersListening \
+            SELECT username, title FROM Songs as s JOIN UsersListening as ul ON ul.song_id = s._id \
             WHERE username in '+ in_clause +' ;', function(e,r,f){
                 if (e){
                     throw e;

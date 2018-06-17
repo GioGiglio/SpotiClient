@@ -627,7 +627,7 @@ function friendsModalShow(){
 
                 // Show result
                 result.forEach((x) => {
-                    appendFriendListening(x.username, Number(x.song_id));
+                    appendFriendListening(x.username, x.title);
                 });
 
             }
@@ -687,20 +687,18 @@ function addFriend(){
 
     xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xhttp.send(JSON.stringify(data));
+
+    friendsModalClose();
 }
 
 /**
  * Appends html elements representing a friend listening to a song
  * @param {String} username 
- * @param {Number} song_id 
+ * @param {String} song_title 
  */
-function appendFriendListening(username, song_id){
-    if (song_id == -1){
-        // user isn't listening to any song
-        return;
-    }
+function appendFriendListening(username, song_title){
     var ul = $('#friendsModal ul')[0];
     var li = document.createElement('li');
-    $(li).text(username + ' is listening to '+ songFromId(song_id).title);
+    $(li).text(username + ' is listening to '+ song_title);
     ul.appendChild(li);
 }
