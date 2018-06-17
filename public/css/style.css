@@ -159,6 +159,10 @@ li > div > .image:hover {
     max-height: 50%;
 }
 
+.dropdown_content {
+    max-height: 500px;
+}
+
 .dropdown_content li {
     display: block;
     padding:5px;
