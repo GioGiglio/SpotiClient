@@ -249,9 +249,21 @@ module.exports = {
                 if (e){
                     throw e;
                     res.sendStatus(500);
-                } else {
-                    res.sendStatus(200);
+                    return;
                 }
+
+                // remove association with songs
+                connection.query(' \
+                DELETE FROM PlaylistsSongs \
+                WHERE playlist_id = ' + playlist_id + ';', function(e,r,f){
+                    if (e){
+                        throw e;
+                        res.sendStatus(500);
+                    }
+                    else {
+                        res.sendStatus(200);
+                    }
+                });
             });
         });
     },
