@@ -23,7 +23,7 @@ body {
 
 form {
     margin:auto;
-    width: 50%;
+    width: 100%;
     text-align: center;
 }
 
@@ -81,4 +81,10 @@ button {
 
 #logup_btn {
     margin-left: 20px;
+}
+
+@media only screen and (max-width: 768px) {
+    #container > div {
+        width: 80%;
+    }
 }
