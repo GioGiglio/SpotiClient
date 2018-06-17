@@ -226,11 +226,10 @@ function updatePlaylistSongs(playlist){
             }
             
             // delete html song elements from playlist
-            $('.playlist_song_list').empty();
+            $('.dropdown[value=' + playlist.id+ '] .playlist_song_list').empty();
             playlist.removeAllSongs();
 
             // re-fetch songs
-            console.log('utils.UpdatePlaylistSongs calls fetchPlaylistsSongs()');
             fetchPlaylistsSongs([playlist.id]);
         }
     }
@@ -420,6 +419,8 @@ function initVars(){
             if (playing_from_playlist){
                 playing_from_playlist = false;
             }
+            // update listening song to -1 in server
+
         }
     });
 
@@ -432,6 +433,8 @@ function initVars(){
         }
     });
 }
+
+function updateListeningSong(song_id){}
 
 /**
  * Show PlaylistsList
