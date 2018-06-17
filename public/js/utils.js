@@ -450,8 +450,9 @@ function initVars(){
 /**
  * Updates the listening song for the user in the server
  * @param {Number} song_id the id of listening song
+ * @param {function} callback an optional callback function
  */
-function updateListeningSong(song_id){
+function updateListeningSong(song_id, callback){
     console.log('Updating listening song to',song_id);
 
     var xhttp = new XMLHttpRequest();
@@ -469,6 +470,9 @@ function updateListeningSong(song_id){
             }
             else{
                 console.log('Error while updating listening song');
+            }
+            if(callback !== undefined){
+                callback();
             }
         }
     }
@@ -520,8 +524,16 @@ function hidePlaylists(){
  * Logs the current user out the session
  */
 function logout(){
-    document.cookie = 'username=;';
-    window.location.href="/login.html";
+    // reset listeningSong
+    updateListeningSong(-1, function(){
+        // updateListeningSong completed
+
+         // reset cookie
+        document.cookie = 'username=;';
+
+        // redirect to login.html
+        window.location.href="/login.html";
+    });
 }
 
 /**
