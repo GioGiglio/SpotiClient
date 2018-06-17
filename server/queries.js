@@ -272,9 +272,9 @@ module.exports = {
         console.log('updating listening song for user',uname);
 
         connection.query('\
-        UPDATE TABLE UsersListening \
+        UPDATE UsersListening \
         SET song_id = ' + song_id + ' \
-        WHERE username = "' + uname +'" ;', function(e,r,f){
+        WHERE username = "' + uname + '" ;', function(e,r,f){
             if (e){
                 throw e;
                 res.sendStatus(500);

@@ -292,6 +292,7 @@ function playlistFromId(id){
 */
 function play(id){
     console.log('play() called for song:',id);
+    updateListeningSong(id);
 
     if (playing_from_playlist){
         // songs are preloaded in playing_queue
@@ -420,7 +421,7 @@ function initVars(){
                 playing_from_playlist = false;
             }
             // update listening song to -1 in server
-
+            updateListeningSong(-1);
         }
     });
 
@@ -446,7 +447,35 @@ function initVars(){
     });
 }
 
-function updateListeningSong(song_id){}
+/**
+ * Updates the listening song for the user in the server
+ * @param {Number} song_id the id of listening song
+ */
+function updateListeningSong(song_id){
+    console.log('Updating listening song to',song_id);
+
+    var xhttp = new XMLHttpRequest();
+    var data = {
+        song_id: song_id
+    };
+
+    xhttp.open('POST','/updateListeningSong',true);
+    xhttp.withCredentials = true;
+
+    xhttp.onreadystatechange = function() {
+        if (xhttp.readyState == XMLHttpRequest.DONE) {
+            if (xhttp.status == 200){
+                console.log('listening song updated');
+            }
+            else{
+                console.log('Error while updating listening song');
+            }
+        }
+    }
+
+    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhttp.send(JSON.stringify(data));
+}
 
 /**
  * Show PlaylistsList
