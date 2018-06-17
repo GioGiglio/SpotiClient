@@ -314,7 +314,7 @@ a#navbar_playlists {
     color: white;
 }
 
-#friendsModal #addFriendButton {
+#friendsModal button {
     display: inline;
     padding: 5px 10px;
     margin-bottom: 20px;

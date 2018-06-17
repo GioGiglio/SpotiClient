@@ -161,6 +161,11 @@ app.post('/addFriend', function(req, res){
     query.addFriend(res, connection, uname, friend);
 });
 
+app.post('/removeFriend', function(req, res){
+    var uname = parseUsername(req);
+    var friend = req.body.friend;
+    query.removeFriend(res, connection, uname, friend);
+});
 
 /**
  * Gets the username from the cookie of a request

@@ -395,5 +395,39 @@ module.exports = {
                 res.sendStatus(200);
             });
         });
+    },
+
+    removeFriend: function(res, connection, uname, friend){
+        console.log('removing friend',friend, 'for user', uname);
+
+        // first check if friends exists
+        connection.query('\
+        SELECT * FROM Users \
+        WHERE username = "' + friend + '" ;', function(e,r,f){
+            if (e){
+                throw e;
+                res.sendStatus(500);
+                return;
+            }
+
+            if (r[0] === undefined){
+                // No such user
+                res.statusMessage = 'User ' + friend + ' does not exist'
+                res.status(400).end();
+                return;
+            }
+
+            // friend exists, remove entry from Friends
+            connection.query('\
+            DELETE FROM Friends \
+            WHERE username = "' + uname + '" AND following = "' + friend + '" ;', function(e,r,f){
+                if (e){
+                    throw e;
+                    res.sendStatus(500);
+                    return;
+                }
+                res.sendStatus(200);
+            });
+        });
     }
 };

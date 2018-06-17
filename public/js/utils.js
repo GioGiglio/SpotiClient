@@ -675,6 +675,13 @@ function friendsModalClose(){
 function addFriend(){
     // get username from input field
     var username = $('#friendsModal input').val();
+
+    // check empty string
+    if (username === ''){
+        alert('Please insert username');
+        return;
+    }
+
     var data = {
         friend: username
     };
@@ -713,4 +720,42 @@ function appendFriendListening(username, song_title){
     var li = document.createElement('li');
     $(li).text(username + ' is listening to '+ song_title);
     ul.appendChild(li);
+}
+
+function removeFriend(){
+    // get username from input field
+    var username = $('#friendsModal input').val();
+
+    // check empty string
+    if (username === ''){
+        alert('Please insert username');
+        return;
+    }
+
+    var data = {
+        friend: username
+    };
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.open('POST','/removeFriend',true);
+    xhttp.withCredentials = true;
+
+    xhttp.onreadystatechange = function() {
+        if (xhttp.readyState == XMLHttpRequest.DONE) {
+            if (xhttp.status == 200){
+                console.log('friend removed');
+            }
+            else if (xhttp.status == 400){
+                alert(xhttp.statusText);
+            }
+            else {
+                alert('Server errors while removing friend');
+            }
+        }
+    }
+
+    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhttp.send(JSON.stringify(data));
+
+    friendsModalClose();
 }
