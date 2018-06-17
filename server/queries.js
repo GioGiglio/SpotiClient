@@ -39,8 +39,26 @@ module.exports = {
     },
 
     addUser: function (res, connection, uname, email, psw) {
+
+        // check if the user already exists
+        connection.query(' \
+        SELECT * from Users \
+        WHERE username = "' + uname + '" ;',function(e,r,f){
+            if (e){
+                throw (e);
+                res.sendStatus(500);
+                return;
+            }
+            if (r[0] !== undefined){
+                // user already exist
+                res.writeHead(400, {"Content-Type":"text/plain"});
+                res.end('ERROR: User ' + uname + ' already exists');
+                return;
+            }
+        });
+
         connection.query("INSERT INTO Users \
-    VALUES ('"+ uname + "' , '" + email + "' , '" + psw + "');",
+        VALUES ('"+ uname + "' , '" + email + "' , '" + psw + "');",
             function (error, results, fields) {
                 if (error){
                     res.writeHead(400, {"Content-Type":"text/plain"});
