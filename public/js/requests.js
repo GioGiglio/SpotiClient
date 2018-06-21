@@ -22,11 +22,11 @@ var requests = (function () {
         req('GET', '/userSongs', null, callback);
     }
 
-    function addToUserSongs(callback, data) {
+    function addToUserSongs(data, callback) {
         req('POST', '/addToUserSongs', data, callback);
     }
 
-    function removeFromUserSongs(callback, data) {
+    function removeFromUserSongs(data, callback) {
         req('POST', '/removeFromUserSongs', data, callback);
     }
 
@@ -34,35 +34,35 @@ var requests = (function () {
         req('GET', '/userPlaylists', null, callback);
     }
 
-    function playlistsSongs(callback, data) {
+    function playlistsSongs(data, callback) {
         req('POST', '/playlistsSongs', data, callback);
     }
 
-    function updatePlaylist(callback, data) {
+    function updatePlaylist(data, callback) {
         req('POST', '/updatePlaylist', data, callback);
     }
 
-    function createPlaylist(callback, data) {
+    function createPlaylist(data, callback) {
         req('POST', '/createPlaylist', data, callback);
     }
 
-    function deletePlaylist(callback, data) {
+    function deletePlaylist(data, callback) {
         req('POST', '/deletePlaylist', data, callback);
     }
 
-    function updateListeningSong(callback, data) {
+    function updateListeningSong(data, callback) {
         req('POST', '/updateListeningSong', data, callback);
     }
 
-    function friendsListeningSongs(callback, data) {
-        req('GET', '/friendsListeningSongs', data, callback);
+    function friendsListeningSongs(callback) {
+        req('GET', '/friendsListeningSongs', null, callback);
     }
 
-    function addFriend(callback, data) {
+    function addFriend(data, callback) {
         req('POST', '/addFriend', data, callback);
     }
 
-    function removeFriend(callback, data) {
+    function removeFriend(data, callback) {
         req('POST', '/removeFriend', data, callback);
     }
 

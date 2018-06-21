@@ -80,20 +80,14 @@ function addToPlaylistModal(element){
                 to_remove: []
             };
 
-            var xhttp = new XMLHttpRequest();
-            xhttp.open('POST','/updatePlaylist',true);
-            xhttp.onreadystatechange = function() {
-                if (xhttp.readyState == XMLHttpRequest.DONE) {
-                    if (xhttp.status == 200){
-                        console.log('Song added to playlist');
-                    }
-                    else {
-                        alert('Server errors while adding song to playlist');
-                    }
+            requests.updatePlaylist(data, (x) => {
+                if (x['status'] === 200){
+                    console.log('-- DONE: updatePlaylist');
                 }
-            }
-            xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-            xhttp.send(JSON.stringify(data));
+                else {
+                    alert('Server errors while adding song to playlist');
+                }
+            });
         }
         else{
             alert(playlist.name + ' already contains ' + selected_song.title + '!');
@@ -205,26 +199,16 @@ function updatePlaylistSongs(playlist){
     console.log('to remove',to_remove);
 
     // Update playlist in database
-    var xhttp = new XMLHttpRequest();
-
     var data = {
         playlist_id: playlist.id ,
         to_add: to_add ,
         to_remove: to_remove
     };
 
-    xhttp.open('POST','/updatePlaylist',true);
-
-    xhttp.onreadystatechange = function() {
-        if (xhttp.readyState == XMLHttpRequest.DONE) {
-            if (xhttp.status == 200){
-                console.log('Playlist updated');
-            }
-            else {
-                alert('Server errors while adding song to playlist');
-                return;
-            }
-            
+    requests.updatePlaylist(data, (x) => {
+        if (x['status'] === 200){
+            console.log('-- DONE: updatePlaylist');
+           
             // delete html song elements from playlist
             $('.dropdown[value=' + playlist.id+ '] .playlist_song_list').empty();
             playlist.removeAllSongs();
@@ -232,10 +216,11 @@ function updatePlaylistSongs(playlist){
             // re-fetch songs
             fetchPlaylistsSongs([playlist.id]);
         }
-    }
+        else {
+            alert('Server errors while modifying playlist songs');
+        }
+    });
 
-    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhttp.send(JSON.stringify(data));
     editPlaylistClose();
 }
 
@@ -455,30 +440,22 @@ function initVars(){
 function updateListeningSong(song_id, callback){
     console.log('Updating listening song to',song_id);
 
-    var xhttp = new XMLHttpRequest();
     var data = {
         song_id: song_id
     };
 
-    xhttp.open('POST','/updateListeningSong',true);
-    xhttp.withCredentials = true;
-
-    xhttp.onreadystatechange = function() {
-        if (xhttp.readyState == XMLHttpRequest.DONE) {
-            if (xhttp.status == 200){
-                console.log('listening song updated');
-            }
-            else{
-                console.log('Error while updating listening song');
-            }
-            if(callback !== undefined){
-                callback();
-            }
+    requests.updateListeningSong(data, (x) => {
+        if (status['status'] === 200){
+            console.log('-- DONE: updateListeningSong');
         }
-    }
+        else {
+            alert('Errors while updating listening song');
+        }
 
-    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhttp.send(JSON.stringify(data));
+        if (callback !== undefined)
+            callback();
+
+    });
 }
 
 /**
@@ -571,30 +548,23 @@ function deletePlaylistAlert(element){
     if (confirm('Are you sure to delete playlist "' + playlist.name+ '" ? \n' + 
                 'This action cannot be reverted')){
         console.log('deleting playlist', playlist.name);
-
-        var xhttp = new XMLHttpRequest();
+        
         var data = {
             playlist_id: playlist_id
         };
 
-        xhttp.open('POST','/deletePlaylist',true);
-        xhttp.onreadystatechange = function() {
-            if (xhttp.readyState == XMLHttpRequest.DONE) {
-                if (xhttp.status == 200){
-                    console.log('playlist removed');
-                }
-                else {
-                    alert ('Server errors while removing playlist');
-                }
+        requests.deletePlaylist(data, (x) => {
+            if (x['status'] === 200){
+                console.log('-- DONE: deletePlaylist');
+                showMyPlaylists();
             }
-        }
+            else {
+                alert('Errors while deleting playlist');
+            }
+        });
 
-        xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        xhttp.send(JSON.stringify(data));
-        
         // remove <html> for playlists
         $('#playlists > ul').empty();
-        showMyPlaylists();
     }
 }
 
@@ -627,32 +597,24 @@ function friendsModalShow(){
     $('#friendsModal').show();
 
     // get friends listening songs
-    var xhttp = new XMLHttpRequest();
-    xhttp.open('GET','/friendsListeningSongs',true);
-    xhttp.withCredentials = true;
+    
+    requests.friendsListeningSongs( (x) => {
+        if (x['status'] === 200){
+            console.log('-- RECEIVED: friendsListeningSongs');
+            var result = JSON.parse(x['response']);
 
-    xhttp.onreadystatechange = function() {
-        if (xhttp.readyState == XMLHttpRequest.DONE) {
-            if (xhttp.status == 200){
-                console.log('friends listening songs received');
-                var result = JSON.parse(xhttp.responseText);
-
-                // Show result
-                result.forEach((x) => {
-                    appendFriendListening(x.username, x.title);
-                });
-
-            }
-            else if (xhttp.status == 204){
-                console.log(xhttp.statusText);
-            }
-            else{
-                alert('Server errors while getting listening songs for friends');
-            }
+            // Show result
+            result.forEach((x) => {
+                appendFriendListening(x.username, x.title);
+            });
         }
-    }
-    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhttp.send(null);
+        else if (x[status] === 204){
+            console.log('- No friends for user');
+        }
+        else {
+            alert('Error while getting listening songs for friends');
+        }
+    });
 }
 
 /**
@@ -685,27 +647,18 @@ function addFriend(){
     var data = {
         friend: username
     };
-    
-    var xhttp = new XMLHttpRequest();
-    xhttp.open('POST','/addFriend',true);
-    xhttp.withCredentials = true;
 
-    xhttp.onreadystatechange = function() {
-        if (xhttp.readyState == XMLHttpRequest.DONE) {
-            if (xhttp.status == 200){
-                console.log('friend added');
-            }
-            else if (xhttp.status == 400){
-                alert(xhttp.statusText);
-            }
-            else {
-                alert('Server errors while adding friend');
-            }
+    requests.addFriend(data, (x) => {
+        if (x[status] === 200){
+            console.log('-- DONE: addFriend');
         }
-    }
-
-    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhttp.send(JSON.stringify(data));
+        else if (x[status] === 400){
+            alert('No such user ' + username);
+        }
+        else {
+            alert('Error while adding friend');
+        }
+    });
 
     friendsModalClose();
 }
@@ -736,26 +689,17 @@ function removeFriend(){
         friend: username
     };
 
-    var xhttp = new XMLHttpRequest();
-    xhttp.open('POST','/removeFriend',true);
-    xhttp.withCredentials = true;
-
-    xhttp.onreadystatechange = function() {
-        if (xhttp.readyState == XMLHttpRequest.DONE) {
-            if (xhttp.status == 200){
-                console.log('friend removed');
-            }
-            else if (xhttp.status == 400){
-                alert(xhttp.statusText);
-            }
-            else {
-                alert('Server errors while removing friend');
-            }
+    requests.removeFriend(data, (x) => {
+        if (x[status] === 200){
+            console.log('-- DONE: removeFriend');
         }
-    }
-
-    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhttp.send(JSON.stringify(data));
-
+        else if (x['status'] === 400){
+            alert('No such user ' + username);
+        }
+        else {
+            alert('Error while removing friend');
+        }
+    });
+    
     friendsModalClose();
 }
