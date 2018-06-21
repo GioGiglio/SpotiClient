@@ -70,7 +70,7 @@ app.post('/register',function(req, res){
     query.addUser(res, connection, uname, email, psw);
 });
 
-app.post('/userSongs',function(req, res){
+app.get('/userSongs',function(req, res){
     query.songsForUser(res, connection, parseUsername(req));
 });
 
@@ -88,7 +88,7 @@ app.post('/removeFromUserSongs',function(req, res){
     query.removeUserSong(res, connection,uname, song_id);
 });
 
-app.post('/userPlaylists',function(req, res){
+app.get('/userPlaylists',function(req, res){
     query.playlistsForUser(res, connection, parseUsername(req));
 });
 
