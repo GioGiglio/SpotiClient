@@ -68,23 +68,23 @@ function showMySongs(){
     // Get users songs
     var xhttp = new XMLHttpRequest();
 
-    xhttp.open('POST','/userSongs',true);
-    xhttp.withCredentials = true;
+    requests.userSongs( (x) => {
+        if (x['status'] === 200){
+            console.log('-- RECEIVED: userSongs');
 
-    xhttp.onreadystatechange = function() {
-        if (xhttp.readyState == XMLHttpRequest.DONE) {
-            if (xhttp.status == 200){
-                console.log('User songs received');
-            }
-            else {
-                alert('Server errors getting user songs');
-                return;
-            }
+            /* VISUAL CHANGES */
+            // remove existing songs
+            removeSongs();
+
+            // change search field to search in 'your songs'
+            $('#search_input').attr('placeholder','Search in your songs...');
+
+            /* LOGIC */
 
             // delete current user_songs_ids;
             user_songs_ids = [];
 
-            songs = parseSongs(JSON.parse(xhttp.responseText));
+            songs = parseSongs(JSON.parse(x['response']));
 
             if (songs.length == 0){
                 // No songs for user
@@ -112,17 +112,10 @@ function showMySongs(){
                 }
             }
         }
-    }
-
-    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhttp.send(null);
-
-
-    // remove existing songs
-    removeSongs();
-
-    // change search field to search in 'your songs'
-    $('#search_input').attr('placeholder','Search in your songs...');
+        else {
+            alert('Server errors getting user songs');
+        }
+    });
 }
 
 function showAllSongs(){
@@ -135,32 +128,24 @@ function showAllSongs(){
     
     // Fetch all songs
 
-    var xhttp = new XMLHttpRequest();
-    xhttp.open('GET','/allSongs',true);
+    requests.allSongs( (x) => {
+        if (x['status'] === 200){
+            console.log('-- RECEIVED: allSongs');
 
-    xhttp.onreadystatechange = function() {
-        if (xhttp.readyState == XMLHttpRequest.DONE) {
-            if (xhttp.status == 200){
-                console.log('All songs received');
-            }
-            else {
-                alert('Server errors while getting all songs');
-                return;
-            }
+            /* VISUAL CHANGES */
+            // change search field to search in 'all songs'
+            $('#search_input').attr('placeholder','Search a song...');
 
-            songs = parseSongs(JSON.parse(xhttp.responseText));
+            /* LOGIC */
+            songs = parseSongs(JSON.parse(x['response']));
             songs.forEach(function(song){
                 appendTrack(song,'server');
             });
+        } 
+        else {
+            alert('Server errors while getting global songs');
         }
-    }
-
-    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhttp.send();
-
-
-    // change search field to search in 'all songs'
-    $('#search_input').attr('placeholder','Search a song...');
+    });    
 }
 
 function parseSongs(response){

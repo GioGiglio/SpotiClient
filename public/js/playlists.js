@@ -123,21 +123,12 @@ function appendSongToPlaylist(song,playlist){
 }
 
 function showMyPlaylists(){
-    var xhttp = new XMLHttpRequest();
-    xhttp.open('POST','/userPlaylists',true);
-    xhttp.withCredentials = true;
 
-    xhttp.onreadystatechange = function() {
-        if (xhttp.readyState == XMLHttpRequest.DONE) {
-            if (xhttp.status == 200){
-                console.log('Playlists received');
-            }
-            else {
-                alert('Server errors while getting playlists');
-                return;
-            }
-            
-            playlists = parsePlaylists(JSON.parse(xhttp.responseText));
+    requests.userPlaylists( (x) => {
+        if (x['status'] === 200){
+            console.log('-- RECEIVED: userPlaylists');
+
+            playlists = parsePlaylists(JSON.parse(x['response']));
             playlists.forEach(function(playlist){
                 appendPlaylist(playlist);
             });
@@ -145,10 +136,10 @@ function showMyPlaylists(){
             // now get songs of each playlist
             fetchPlaylistsSongs(playlists.map(function(p){return p.id}));
         }
-    }
-
-    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhttp.send(null);
+        else {
+            alert('Server errors getting user playlists');
+        }
+    });
 }
 
 function parsePlaylists(response){
