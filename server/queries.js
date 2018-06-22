@@ -264,17 +264,17 @@ module.exports = {
 
     deletePlaylist: function(res, connection, playlist_id){
         console.log('deleting playlist',playlist_id);
-
-        // first remove entry from Playlists table
+        
+        // remove association with songs
         connection.query(' \
-        DELETE FROM Playlists \
-        WHERE _id = ' + playlist_id + ';', function(e,r,f){
+        DELETE FROM PlaylistsSongs \
+        WHERE playlist_id = ' + playlist_id + ';', function(e,r,f){
             if (e){
                 throw e;
                 res.sendStatus(500);
                 return;
             }
-
+            
             // remove association with users
             connection.query(' \
             DELETE FROM UsersPlaylists \
@@ -284,19 +284,17 @@ module.exports = {
                     res.sendStatus(500);
                     return;
                 }
-
-                // remove association with songs
-                connection.query(' \
-                DELETE FROM PlaylistsSongs \
-                WHERE playlist_id = ' + playlist_id + ';', function(e,r,f){
-                    if (e){
-                        throw e;
-                        res.sendStatus(500);
-                    }
-                    else {
-                        res.sendStatus(200);
-                    }
-                });
+                // remove entry from Playlists table
+		        connection.query(' \
+		        DELETE FROM Playlists \
+		        WHERE _id = ' + playlist_id + ';', function(e,r,f){
+		            if (e){
+		                throw e;
+		                res.sendStatus(500);
+		            } else {
+		            	res.sendStatus(200);
+		            }
+		        });
             });
         });
     },

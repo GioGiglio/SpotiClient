@@ -1,5 +1,5 @@
 /**
-    Shows/Hides a playlist.
+    Shows/Hides the content of a playlist.
     @param index: the index of the playlist.
 */
 function showPlaylistContent(index) {
@@ -122,6 +122,9 @@ function appendSongToPlaylist(song,playlist){
     songs_list.appendChild(song_li);
 }
 
+/**
+ * Fetches user playlists.
+ */
 function showMyPlaylists(){
 
     requests.userPlaylists( (x) => {
@@ -142,6 +145,11 @@ function showMyPlaylists(){
     });
 }
 
+/**
+ * Parses an array of generic objects to an array of Playlist objects.
+ * @param {Array} response the generic objects array.
+ * @returns an array of Playlist objects.
+ */
 function parsePlaylists(response){
     var out = [];
     response.forEach(function(r){
@@ -218,6 +226,10 @@ function fetchPlaylistsSongs(ids){
     });
 }
 
+/**
+ * Adds the playlist's songs to the playing queue and starts playing.
+ * @param {*} element the clicked html element} element 
+ */
 function playPlaylist (element){
     
     var playlist_id = $(element).parent().parent().attr('value');

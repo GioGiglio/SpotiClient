@@ -1,5 +1,5 @@
 /**
- * Append a song to the tracks list
+ * Appends a song to the tracks list
  * @param {Song} song The song object to append
  * @param {String} owner 'user' if track belongs to the user, otherwise 'server'
  */
@@ -41,24 +41,15 @@ function appendTrack(song,owner){
     console.log('Track appended');
 }
 
-function addMyPlaceholdersSongs(){
-    for(let i=0; i<songs.length; i++){
-        appendTrack(songs[i],'user');
-    }
-}
-
-function addAllPlaceholdersSongs(){
-    appendTrack(runBoyRun,'server');
-    appendTrack(ancora,'server');
-    appendTrack(flamingo,'server');
-}
-
+/**
+ * Removes the html elements representing the songs in the tracks section.
+ */
 function removeSongs(){
     $('#tracks_list ul').empty();
 }
 
 /**
- * Fetch user's songs informations from server and displays them in a list.
+ * Fetches user's songs informations from server and displays them in a list.
  */
 function showMySongs(){
     // Switch active <a> element
@@ -117,6 +108,9 @@ function showMySongs(){
     });
 }
 
+/**
+ * Fetches global songs and display them.
+ */
 function showAllSongs(){
     // Switch active <a> element
     $('#navbar a:nth-child(2)').removeClass('active');
@@ -147,6 +141,11 @@ function showAllSongs(){
     });    
 }
 
+/**
+ * Parses an array of generics object to an array of Song objects.
+ * @param {*} response the generic objects array.
+ * @returns an array of Song objects. 
+ */
 function parseSongs(response){
     var out = [];
     response.forEach(function(s){

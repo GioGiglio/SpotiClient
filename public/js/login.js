@@ -1,3 +1,6 @@
+/**
+ * Hides login form and shows signup one.
+ */
 function showLogup(){
     // Hide login form and logup button
     $('#login_form').hide();
@@ -9,6 +12,9 @@ function showLogup(){
     $('#backto_login').show();
 }
 
+/**
+ * Hides signup form and shows login one.
+ */
 function showLogin(){
     // hide logup
     $('#logup_form').hide();
@@ -20,6 +26,9 @@ function showLogin(){
     $('#logup_btn').show();
 }
 
+/**
+ * Handles login request.
+ */
 function login(){
     // Get username and password
     var form = $('#login_form')[0];
