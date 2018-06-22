@@ -6,7 +6,9 @@ var requests = (function () {
         xhr.withCredentials = true;
         xhr.onreadystatechange = function () {
             if (xhr.readyState == XMLHttpRequest.DONE) {
-                callback({ 'status': xhr.status, 'response': xhr.responseText });
+                if (callback !== undefined){
+                    callback({ 'status': xhr.status, 'response': xhr.responseText });
+                }
             }
         }
 
@@ -66,6 +68,14 @@ var requests = (function () {
         req('POST', '/removeFriend', data, callback);
     }
 
+    function login(data, callback) {
+        req('POST','/login',data, callback);
+    }
+
+    function mainPage(){
+        req('GET','/',null, undefined);
+    }
+
     return {
         allSongs,
         userSongs,
@@ -79,7 +89,9 @@ var requests = (function () {
         updateListeningSong,
         friendsListeningSongs,
         addFriend,
-        removeFriend
+        removeFriend,
+        login,
+        mainPage
     };
 
 })();

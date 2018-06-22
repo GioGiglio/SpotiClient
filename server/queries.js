@@ -26,14 +26,16 @@ module.exports = {
 
                 // check if result is valid
                 if (results[0] !== undefined) {
-                    // Access granted, redirect to /
+                    // Access granted
                     // first set cookie
                     res.cookie('username',uname);
-                    res.redirect('index.html');
+                    res.sendStatus(200);
+                    //res.redirect('index.html');
                 }
                 else {
-                    // Access denied, redirect to login.html
-                    res.redirect('login.html');
+                    // Access denied
+                    res.sendStatus(400);
+                    //res.redirect('login.html');
                 }
             });
     },

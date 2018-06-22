@@ -32,19 +32,16 @@ function login(){
     var obj = {uname: username, psw: password};
 
     // Send request
-    var xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "/login", true);
-    xhttp.setRequestHeader('Content-Type','application/json');
-    
-    // On receive
-    xhttp.onreadystatechange = function() {
-        if (xhttp.readyState === 4 && xhttp.status === 200) {
-            console.log(xhttp.responseText);
+    requests.login(obj, (x) => {
+        if (x['status'] === 200){
+            // request main page
+            requests.mainPage();
         }
-    }
-
-    // send request
-    xhttp.send(JSON.stringify(obj));
+        else if (x['status'] === 400){
+            // invalid username/password
+            alert('Invalid username or password');
+        }
+    });
 }
 /**
  * Check user input on registration form.
