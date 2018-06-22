@@ -66,7 +66,6 @@ function showMySongs(){
     $('#navbar a:nth-child(3)').removeClass('active');
 
     // Get users songs
-    var xhttp = new XMLHttpRequest();
 
     requests.userSongs( (x) => {
         if (x['status'] === 200){
@@ -170,23 +169,14 @@ function addToMySongs(song_id){
         song_id: song_id
     };
 
-    var xhttp = new XMLHttpRequest();
-    xhttp.open('POST','/addToUserSongs', true);
-    xhttp.withCredentials = true;
-
-    xhttp.onreadystatechange = function() {
-        if (xhttp.readyState == XMLHttpRequest.DONE){
-            if (xhttp.status == 200){
-                console.log('Song added to user songs');
-            }
-            else {
-                alert('Server errors while adding song to user songs');
-                return;
-            }
+    requests.addToUserSongs(data, (x) => {
+        if (x['status'] === 200){
+            console.log('-- DONE: addToUserSongs');
         }
-    }
-    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhttp.send(JSON.stringify(data));
+        else {
+            alert('Errors while adding song');
+        }
+    });
 }
 
 /**
@@ -204,23 +194,13 @@ function removeFromMySongs(song_id){
         song_id: song_id
     };
 
-    var xhttp = new XMLHttpRequest();
-    xhttp.open('POST','/removeFromUserSongs', true);
-    xhttp.withCredentials = true;
-
-    xhttp.onreadystatechange = function() {
-        if (xhttp.readyState == XMLHttpRequest.DONE){
-            if (xhttp.status == 200){
-                console.log('Song removed from user songs');
-            }
-            else {
-                alert('Server errors while removing song from user songs');
-                return;
-            }
-
-            showMySongs();
+    requests.removeFromUserSongs(data, (x) => {
+        if (x['status'] === 200){
+            console.log('-- DONE: removeFromUserSongs');
         }
-    }
-    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhttp.send(JSON.stringify(data));
+        else {
+            alert('Error while removing song');
+        }
+        showMySongs();
+    });
 }

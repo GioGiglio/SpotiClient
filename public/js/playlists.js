@@ -162,21 +162,15 @@ function fetchPlaylistsSongs(ids){
         return;
     }
 
-    var data = JSON.stringify(ids);
-    var xhttp = new XMLHttpRequest();
-    xhttp.open('POST','/playlistsSongs',true);
+    var obj = {
+        ids: ids
+    };
 
-    xhttp.onreadystatechange = function() {
-        if (xhttp.readyState == XMLHttpRequest.DONE) {
-            if (xhttp.status == 200){
-                console.log('Playlists songs received');
-            }
-            else {
-                alert('Server errors while getting playlists songs');
-                return;
-            }
+    requests.playlistsSongs(obj, (x) => {
+        if (x['status'] === 200){
+            console.log('-- DONE: playlistsSongs');
 
-            var data = JSON.parse(xhttp.responseText);
+            var data = JSON.parse(x['response']);
             var playlist_ids = data.map(function(e){return e.playlist_id;});
 
             // remove duplicates
@@ -216,11 +210,12 @@ function fetchPlaylistsSongs(ids){
                     appendSongToPlaylist(curr_song,curr_playlist);
                 });
             }
-        }
-    }
 
-    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhttp.send(data);
+        }
+        else {
+            alert('Error while getting playlists songs');
+        }
+    });
 }
 
 function playPlaylist (element){
@@ -247,31 +242,20 @@ function playPlaylist (element){
 function addPlaylist(playlist_name){
     console.log('creating playlist',playlist_name);
 
-    var xhttp = new XMLHttpRequest();
     var data = {
         playlist_name: playlist_name
     };
 
-    xhttp.open('POST','/createPlaylist',true);
-    xhttp.withCredentials = true;
+    requests.createPlaylist(data, (x) => {
+        if (x['status'] === 200){
+            console.log('-- DONE: createPlaylist');
 
-    xhttp.onreadystatechange = function() {
-        if (xhttp.readyState == XMLHttpRequest.DONE) {
-            if (xhttp.status == 200){
-                console.log('Playlist created');
-            }
-            else {
-                alert('Server errors while creating playlist');
-                return;
-            }
-
-            // remove <html> for playlists
+            // remove <html> for playlists and refetch playlists.
             $('#playlists > ul').empty();
             showMyPlaylists();
-            console.log('playlist',playlist_name,'created');
         }
-    }
-    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhttp.send(JSON.stringify(data));
-
+        else {
+            alert('Error while creating playlist');
+        }
+    });
 }
