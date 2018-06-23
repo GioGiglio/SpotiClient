@@ -35,20 +35,23 @@ function login(){
     var username = form.uname.value;
     var password = form.psw.value;
 
-    console.log(username, password);
-
     // Create JSON object
-    var obj = {uname: username, psw: password};
+    var obj = {
+        uname: username,
+        psw: password.hashCode()
+    };
 
     // Send request
     requests.login(obj, (x) => {
-        if (x['status'] === 200){
-            // request main page
-            requests.mainPage();
-        }
-        else if (x['status'] === 400){
+        if (x['status'] === 400){
             // invalid username/password
             alert('Invalid username or password');
+
+            // Clear input fields
+            form.uname.value = '';
+            form.psw.value = '';
+        } else {
+            window.location.href = 'index.html';
         }
     });
 }
@@ -65,4 +68,25 @@ function logupCheck(){
         return false;
     }
     return true;
+}
+
+function login_init(){
+
+    fade_login();
+
+    // define hashCode method
+    String.prototype.hashCode = function(){
+        var hash = 0;
+        if (this.length == 0) return hash;
+        for (i = 0; i < this.length; i++) {
+            char = this.charCodeAt(i);
+            hash = ((hash<<5)-hash)+char;
+            hash = hash & hash; // Convert to 32bit integer
+        }
+        return hash;
+    }
+}
+
+function fade_login() {
+    $('#container > div').fadeIn(750);
 }

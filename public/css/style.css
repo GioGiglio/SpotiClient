@@ -118,6 +118,32 @@ li > div > .image:hover {
     margin-left: 20px;
 }
 
+#player_title{
+    display:inline;
+}
+
+#play_prev {
+    background-image: url(../media/skip_previous.svg);
+    background-repeat: no-repeat;
+    display: none;
+    width: 24px;
+    height: 24px;
+    border:0;
+}
+
+#play_next {
+    background-image: url(../media/skip_next.svg);
+    width: 24px;
+    height: 24px;
+    background-repeat: no-repeat;
+    display: none;
+    border:0;
+}
+
+#music_player{
+    display:block;
+}
+
 /* --- PLAYLIST --- */
 
 .playlist_name:hover {
