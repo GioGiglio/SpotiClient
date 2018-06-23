@@ -6,19 +6,6 @@ function init(){
     
     showMySongs();
     showMyPlaylists();
-
-    // String hashCode prototype
-
-    String.prototype.hashCode = function(){
-        var hash = 0;
-        if (this.length == 0) return hash;
-        for (i = 0; i < this.length; i++) {
-            char = this.charCodeAt(i);
-            hash = ((hash<<5)-hash)+char;
-            hash = hash & hash; // Convert to 32bit integer
-        }
-        return hash;
-    }
 }
 
 /**
@@ -276,89 +263,122 @@ function playlistFromId(id){
     @param id: the id of the song in the tracks list.
 */
 function play(id){
-    console.log('play() called for song:',id);
-    updateListeningSong(id);
+
+    var song_to_play = songFromId(id);
 
     if (playing_from_playlist){
-        // songs are preloaded in playing_queue
+        // playing from a playlist
+        // do not calc playing_queue
 
-        var playlist_song = songFromId(id); 
-        player.src = playlist_song.path;
+        player.src = song_to_play.path;
         player.play();
-
-        // update player song title and image
-        $(player_title).text(playlist_song.title);
-        $(player_image).css('background-image','url('+playlist_song.imageUrl+')');
-        
-        // remove current song from playing queue
-        //playing_queue.shift();
-
+        current_song = song_to_play;
+        // update graphics
+        updatePlayingInfo();
         return;
     }
 
-    var to_play = songFromId(id);
-
+    // initial state
     if (player.currentSrc === ''){
-        // Initial state
-        playing_queue.unshift(to_play);
-        populateQueue();
-        current_song = to_play;
-
-        player.src= current_song.path;
+        player.src = song_to_play.path;
         player.play();
-
-        // update player song title and image
-        $(player_title).text(current_song.title);
-        $(player_image).css('background-image','url('+current_song.imageUrl+')');
-        
+        current_song = song_to_play;
+        // update graphics
+        updatePlayingInfo();
+        populateQueue();
         return;
     }
-    
-    if (current_song === undefined){
-        current_song = to_play;
-    }
-    
+
     if (player.paused){
-        // player is paused -> play
-        if (current_song.id !== to_play.id){
-            // User clicked a different song from the current one
-
-            //remove current song from queue and add the new one
-            playing_queue.shift();
-            playing_queue.unshift(to_play);
-            populateQueue();
-            current_song = to_play;
-            
-            
-            // update audio source
-            player.src = current_song.path;
-        }
-        player.play();
-        
-    } else {
-        // player is playing
-
-        if (current_song.id !== to_play.id){
-
-            //remove current song from queue and add the new one
-            playing_queue.shift();
-            playing_queue.unshift(to_play);
-            populateQueue();
-
-            current_song = to_play;
-            
-            // Different song -> play
-            player.src = current_song.path;
-            player.play();
+        // player is paused
+        if (current_song.id === song_to_play.id){
+            // same song -> play
+            player.play()
         }
         else {
-            // Same song -> pause
-            player.pause();
+            // different song -> replace
+            player.src = song_to_play.path;
+            player.play();
+            current_song = song_to_play;
+            // update graphics
+            updatePlayingInfo();
+            populateQueue();
         }
     }
+    else {
+        // player is playing
+        if (current_song.id === song_to_play.id){
+            // same song -> pause
+            player.pause();
+        }
+        else {
+            // different song -> replace
+            player.src = song_to_play.path;
+            player.play();
+            current_song = song_to_play;
+            // update graphics
+            updatePlayingInfo();
+            populateQueue();
+        }
+    }
+
+}
+
+function play_prev(){
+    // find previous song
+    var previous_id = -1;
+    var target;
+
+    if (playing_from_playlist){
+        target = '.dropdown[value=' + playing_playlist_id + '] .playlist_song';
+    }
+    else {
+        target = '.track';
+    }
+
+    $(target).each(function() {
+        var curr_id = Number($(this).attr('value'));
+        
+        if (curr_id === current_song.id){
+            // break the loop
+            return false;
+        }
+        previous_id = curr_id;
+    });
+
+    if (previous_id !== -1){
+        play(previous_id);
+    }
+    else {
+        console.log('There\'s not a previous song');
+    }
+    
+}
+
+function play_next(){
+    if (playing_queue.length > 0){
+
+        if (playing_from_playlist){
+            play(playing_queue.shift().id);
+        }
+        else{
+            // not playing from playlist
+            play(playing_queue[0].id);
+        }
+    }
+    else {
+        console.log('There\'s not a next song');
+    }
+}
+
+/**
+ * Updates player info
+ */
+function updatePlayingInfo(){
     // update player song title and image
     $(player_title).text(current_song.title);
     $(player_image).css('background-image','url('+current_song.imageUrl+')');
+    $('#play_prev, #play_next').css('display','inline');
 }
 
 /**
@@ -366,13 +386,13 @@ function play(id){
  */
 function populateQueue(){
     // first of all, empty the playling_queue except for the first element
-    playing_queue.length = 1;
+    playing_queue = [];
 
     // for each track
     $('.track').each(function() {
         var curr_id = Number($(this).attr('value'));
         
-        if (curr_id > playing_queue[0].id){
+        if (curr_id > current_song.id){
             playing_queue.push(songFromId(curr_id));
         }
     });
@@ -385,8 +405,10 @@ function initVars(){
     player = $('#music_player')[0];
     player_title = $('#player_title')[0];
     player_image = $('#player_image')[0];
+
     current_song = undefined;
     playing_from_playlist = false;
+    playing_playlist_id = undefined;
 
     songs=[];
     playing_queue = [];
@@ -395,20 +417,40 @@ function initVars(){
     // player on completition listener
     $(player).on('ended', function(){
 
-        if (playing_queue.length > 1){
+        if (playing_queue.length > 0){
             console.log('- Player: Playing next song');
-            play(playing_queue[1].id);
-            if (playing_from_playlist) playing_queue.shift();
-        } else {
+
+            if (playing_from_playlist){
+                play(playing_queue.shift().id);
+            }
+            else {
+                // not playing from playlist
+                play(playing_queue[0].id);
+            }
+
+            //if (playing_from_playlist) playing_queue.shift();
+
+        }
+        else {
             console.log('- Player: Nothing to play');
             playing_queue = [];
             if (playing_from_playlist){
                 playing_from_playlist = false;
+                playing_playlist_id = undefined;
             }
             // update listening song to -1 in server
             updateListeningSong(-1);
         }
     });
+
+    // First-time initialization
+    if (window.width <= 768){
+        // track list -> full width
+        $('#tracks_list').removeClass('col-9').addClass('col-12');
+
+        // audio player -> full width
+        $('#music_player').removeClass('col-8').addClass('col-12');
+    }
 
     // Media queries
     $(window).on('resize', function() {
@@ -445,7 +487,7 @@ function updateListeningSong(song_id, callback){
     };
 
     requests.updateListeningSong(data, (x) => {
-        if (status['status'] === 200){
+        if (x['status'] === 200){
             console.log('-- DONE: updateListeningSong');
         }
         else {
@@ -649,7 +691,7 @@ function addFriend(){
     };
 
     requests.addFriend(data, (x) => {
-        if (x[status] === 200){
+        if (x['status'] === 200){
             console.log('-- DONE: addFriend');
         }
         else if (x[status] === 400){
@@ -690,7 +732,7 @@ function removeFriend(){
     };
 
     requests.removeFriend(data, (x) => {
-        if (x[status] === 200){
+        if (x['status'] === 200){
             console.log('-- DONE: removeFriend');
         }
         else if (x['status'] === 400){

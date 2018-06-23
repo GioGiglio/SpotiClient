@@ -107,6 +107,7 @@ function appendSongToPlaylist(song,playlist){
     // Add onclick listener
     $(song_li).click(function(e){
         playing_from_playlist = false;
+        playing_playlist_id = undefined;
         play($(this).attr('value'));
     });
 
@@ -235,14 +236,18 @@ function playPlaylist (element){
     var playlist_id = $(element).parent().parent().attr('value');
     var playlist = playlistFromId(playlist_id);
 
+    // empty playing_queue
+    playing_queue = [];
+
     for(let i= playlist.songs.length-1; i >=0; i--){
         playing_queue.unshift(playlist.songs[i]);
     }
 
-    playing_from_playlist = true;
-
     if (playlist.songs.length > 0){
-        play(playing_queue[0].id);
+        playing_from_playlist = true;
+        playing_playlist_id = playlist_id;
+
+        play(playing_queue.shift().id);
         console.log('Playing from playlist');
     }
 }
