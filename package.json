@@ -1,0 +1,18 @@
+{
+  "name": "spoticlient",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server/server.js",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "md5": "^2.2.1",
+    "mysql": "^2.15.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
