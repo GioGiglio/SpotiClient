@@ -9,9 +9,9 @@ var query = require('./queries.js');
 var mysql      = require('mysql');
 var connection = mysql.createConnection({
     host     : 'localhost',
-    user     : 'root',
+    user     : 'gruppo15_admin',
     password : 'root',
-    database : 'SpotiClient'
+    database : 'Gruppo15'
 });
 
 // Configuration
